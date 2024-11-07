@@ -1,0 +1,44 @@
+# Root level
+.DS_Store
+.env
+docker-compose.override.yml
+/db_data/
+
+# Backend (Rails)
+/backend/.bundle
+/backend/log/*
+/backend/tmp/*
+!/backend/log/.keep
+!/backend/tmp/.keep
+/backend/storage/*
+!/backend/storage/.keep
+/backend/tmp/storage/*
+!/backend/tmp/storage/
+!/backend/tmp/storage/.keep
+/backend/config/master.key
+/backend/.env*
+!/backend/.env*.erb
+
+# Frontend (Next.js)
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
+/frontend/.yarn/install-state.gz
+/frontend/.next/
+/frontend/out/
+/frontend/build
+/frontend/.DS_Store
+/frontend/*.pem
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.env*.local
+/frontend/.vercel
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
