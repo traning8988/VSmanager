@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  league: one
+  date: 2024-11-19 04:14:58
+  team1: one
+  team2: one
+  team1_score: 1
+  team2_score: 1
+  result: MyString
+  place: MyString
+
+two:
+  league: two
+  date: 2024-11-19 04:14:58
+  team1: two
+  team2: two
+  team1_score: 1
+  team2_score: 1
+  result: MyString
+  place: MyString

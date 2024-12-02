@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyText
+  target_audience: MyString
+  end_date: 2024-11-19 06:07:17
+
+two:
+  title: MyString
+  content: MyText
+  target_audience: MyString
+  end_date: 2024-11-19 06:07:17
