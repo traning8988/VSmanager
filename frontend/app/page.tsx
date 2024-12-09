@@ -1,9 +1,7 @@
 
 
-export default function Login() {
+export default function app() {
   return (
-    <div>
-      <h1>Loginページです</h1>
-    </div>
+    <h1>トップページ</h1>
   );
 }
