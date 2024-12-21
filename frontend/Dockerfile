@@ -10,15 +10,8 @@ COPY package.json package-lock.json ./
 # 依存関係をインストール
 RUN npm install
 
-# shadcn-uiのローカルインストール
-RUN npm install shadcn-ui
-
 # アプリのソースコードをコピー
 COPY . .
-
-# 必要なshadcn-uiコンポーネントを初期化
-RUN npx shadcn-ui@latest init
-RUN npx shadcn-ui@latest add button form input
 
 # Next.js のポート
 EXPOSE 3001

@@ -4,8 +4,8 @@ class CreateTeams < ActiveRecord::Migration[7.1]
       t.string :leader_name, null: false
       t.string :team_name, null: false
       t.string :common_name, null: false
-      t.string :email, null: false
-      t.string :password_digest, null: false
+      t.string :email, null: false, default: ""
+      t.string :password_digest, null: false, default: ""
       t.references :league, null: false, foreign_key: true
 
       t.timestamps

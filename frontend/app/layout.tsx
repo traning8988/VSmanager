@@ -20,6 +20,7 @@ export default function RootLayout({
       <body className={`bg-zinc-800 text-white ${inter.className}`}>
         <Header />
         <main>{children}</main>
+        
       </body>
     </html>
   )

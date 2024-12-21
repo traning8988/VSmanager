@@ -1,95 +1,106 @@
-# リーグデータ作成
+# leagues
 league1 = League.create!(category: "土曜", division: 1)
-league2 = League.create!(category: "日曜", division: 2)
+league2 = League.create!(category: "土曜", division: 2)
+league3 = League.create!(category: "日曜", division: 1)
+league4 = League.create!(category: "日曜", division: 2)
 
-# チームデータ作成
-team1 = Team.create!(
-  leader_name: "田中",
-  team_name: "土曜1部チームA",
-  common_name: "TeamA",
-  email: "teamA@example.com",
-  password_digest: "passwordA",
-  league_id: league1.id
-)
+# リーグを配列でまとめる
+leagues = [league1, league2, league3, league4]
 
-team2 = Team.create!(
-  leader_name: "佐藤",
-  team_name: "土曜1部チームB",
-  common_name: "TeamB",
-  email: "teamB@example.com",
-  password_digest: "passwordB",
-  league_id: league1.id
-)
+# teams
+teams = []
+("A".."T").each_with_index do |letter, i|
+  league = leagues.sample # リーグをランダムに選択
+  teams << Team.create!(
+    leader_name: "リーダー#{i + 1}",
+    team_name: "team_name#{letter}",
+    common_name: "common_name#{letter}",
+    email: "team#{letter}@example.com",
+    password: "password#{letter}",
+    league: league # リレーションを正確に指定
+  )
+end
 
-team3 = Team.create!(
-  leader_name: "鈴木",
-  team_name: "日曜2部チームC",
-  common_name: "TeamC",
-  email: "teamC@example.com",
-  password_digest: "passwordC",
-  league_id: league2.id
-)
+# 土日を計算する関数
+def next_or_previous_weekend(today)
+  target_weekdays = [6, 0] # 土曜日:6, 日曜日:0
 
-team4 = Team.create!(
-  leader_name: "高橋",
-  team_name: "日曜2部チームD",
-  common_name: "TeamD",
-  email: "teamD@example.com",
-  password_digest: "passwordD",
-  league_id: league2.id
-)
+  # 今日以降の最初の土日
+  upcoming = (0..6).map { |i| today + i }.find { |d| target_weekdays.include?(d.wday) }
 
-# 試合データ作成
-match1 = Match.create!(
-  league_id: league1.id,
-  date: DateTime.now + 1.day,
-  team1_id: team1.id,
-  team2_id: team2.id,
-  place: "スタジアムA"
-)
+  # 今日以前の最後の土日
+  previous = (-6..0).map { |i| today + i }.find { |d| target_weekdays.include?(d.wday) }
 
-match2 = Match.create!(
-  league_id: league2.id,
-  date: DateTime.now + 2.days,
-  team1_id: team3.id,
-  team2_id: team4.id,
-  place: "スタジアムB"
-)
+  [upcoming, previous].compact.sample # どちらかをランダムで返す
+end
 
-# 試合届データ作成
-MatchRequest.create!(
-  team_id: team1.id,
-  requested_date: Date.today + 7.days,
-  double_header: false
-)
+# match_requests
+teams.each do |team|
+  MatchRequest.create!(
+    team: team,
+    requested_date: next_or_previous_weekend(Date.today),
+    double_header: [true, false].sample
+  )
+end
 
-MatchRequest.create!(
-  team_id: team3.id,
-  requested_date: Date.today + 7.days,
-  double_header: true
-)
+# matches
+10.times do
+  league = leagues.sample
+  league_teams = league.teams
 
-# 試合レポートデータ作成
-MatchReport.create!(
-  match_id: match1.id,
-  reporting_team_id: team1.id,
-  opponent_team_id: team2.id,
-  reporting_team_score: 3,
-  opponent_team_score: 2
-)
+  # 同じリーグ内でランダムに2チーム選択
+  if league_teams.size >= 2
+    team1, team2 = league_teams.sample(2)
 
-MatchReport.create!(
-  match_id: match1.id,
-  reporting_team_id: team2.id,
-  opponent_team_id: team1.id,
-  reporting_team_score: 2,
-  opponent_team_score: 3
-)
+    # 同じリーグ内のリクエスト日からランダムに1つ選択
+    common_requested_date = MatchRequest.where(team: [team1, team2]).pluck(:requested_date).uniq.sample
 
-MatchReport.create!(
-  match_id: match2.id,
-  reporting_team_id: team3.id,
-  opponent_team_id: team4.id,
-  reporting_team_score: 4,
-  opponent_team_score: 4
-)
+    next unless common_requested_date # 共通の日付がない場合はスキップ
+
+    Match.create!(
+      league: league,
+      date: common_requested_date,
+      team1: team1,
+      team2: team2,
+      place: "グラウンド#{rand(1..5)}",
+      team1_score: rand(0..10),
+      team2_score: rand(0..10),
+      result: %w[win lose draw].sample
+    )
+  end
+end
+
+# informations
+5.times do |i|
+  Information.create!(
+    title: "お知らせ #{i + 1}",
+    content: "これはお知らせ #{i + 1} の内容です。",
+    target_audience: %w[全員 リーダー].sample,
+    end_date: Date.today + rand(5..20)
+  )
+end
+
+# team_informations
+Team.all.each do |team|
+  information = Information.all.sample
+  TeamInformation.create!(
+    team: team,
+    information: information
+  )
+end
+
+# match_reports
+Match.all.each do |match|
+  reporting_team = [match.team1, match.team2].sample
+  opponent_team = (reporting_team == match.team1 ? match.team2 : match.team1)
+
+  MatchReport.create!(
+    match: match,
+    reporting_team: reporting_team,
+    opponent_team: opponent_team,
+    reporting_team_score: match.team1 == reporting_team ? match.team1_score : match.team2_score,
+    opponent_team_score: match.team1 == reporting_team ? match.team2_score : match.team1_score
+  )
+end
+
+puts "Seed data created successfully!"

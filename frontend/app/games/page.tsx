@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-export default function games({ params }: { params: { teamId: string } }) {
+export default function Games({ params }: { params: { teamId: string } }) {
   return (
     <div className="flex flex-col items-center justify-center space-y-6 mt-4">
       <h1 className="text-2xl text-center">試合情報</h1>
@@ -10,7 +10,7 @@ export default function games({ params }: { params: { teamId: string } }) {
       </div>
       <div className="flex space-x-10">
         <Button asChild>
-          <Link href="/games/2/match_req">試合申し込み</Link>
+          <Link href="/games/match-requests">試合申し込み</Link>
         </Button>
         <Button>試合結果届け</Button>
       </div>
