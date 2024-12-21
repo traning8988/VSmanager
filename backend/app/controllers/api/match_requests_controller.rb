@@ -1,42 +1,37 @@
 module Api
   class MatchRequestsController < ApplicationController
+    before_action :set_current_user
     #管理者用の試合届確認画面に表示
     def index
       next_saturday = next_available_date("土曜")
       next_sunday = next_available_date("日曜")
 
-      match_requests = MatchRequest.includes(team: :league).where(requested_date: [next_saturday, next_sunday])
+      match_requests = MatchRequest.includes(team: :league).where(requested_date: [next_saturday, next_sunday]).order("leagues.category ASC, leagues.division ASC")
 
-      if match_reports.nil?
+      if match_requests.nil? || match_requests.empty?
         render json: { error: "期間内の試合届けはありません"}
         return
       end
 
-      next_week_request = []
+      next_week_requests = []
       match_requests.each do |request|
-        next_week_request << {
-          team_name: request.team.team_name,
+        next_week_requests << {
+          id:        request.id,
+          common_name: request.team.common_name,
           category:  request.team.league.category,
           division:  request.team.league.division,
-          requested_date: request.requested_date
+          requested_date: request.requested_date,
+          double_header: request.double_header
         }
-        if request.double_header == true
-          next_week_request << {
-            team_name: request.team.team_name,
-            category:  request.team.league.category,
-            division:  request.team.league.division,
-            requested_date: request.requested_date
-          }
-        end
       end
-      render json: next_week_request
+      render json: next_week_requests
     end
 
     #ユーザーの試合届提出
     def create
       #例外処理
       begin
-        team = Team.find(params[:id])
+        team = Team.find_by(id: @current_user.id)
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Team not found" }, status: :not_found
         return
@@ -65,6 +60,19 @@ module Api
       end
     end
 
+    def destroy
+      league_category = @current_user.league.category
+      game_date = next_available_date(league_category)
+
+      match_request = MatchRequest.find_by(team_id: @current_user.id, requested_date: game_date)
+      if match_request
+        match_request.destroy
+        render json: { message: '試合届を取り消しました' }, status: :ok
+      else
+        render json: { message: '試合届の提出はありません' }
+      end
+    end
+
   private
     def next_available_date(category)
       today = Date.today
@@ -72,6 +80,11 @@ module Api
       days_to_add = (target_weekday - today.wday) % 7
       days_to_add = 7 if days_to_add == 0
       today + days_to_add
+    end
+
+    # 仮にteam_id:2で実装
+    def set_current_user
+      @current_user = Team.find(2)
     end
   end
 end

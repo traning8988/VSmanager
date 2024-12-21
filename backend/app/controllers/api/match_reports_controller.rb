@@ -9,6 +9,7 @@ module Api
 
       render json: match_reports.map { |report|
         {
+          id: report.id,
           match_id: report.match_id,
           date: report.match.date.strftime("%m月%d日") + "(#{format_wday(report.match.date.wday)})",
           league: "#{report.reporting_team.league.category}#{report.opponent_team.league.division}部",
@@ -32,7 +33,7 @@ module Api
       match = Match.find_by(
         team1_id: [reporting_team.id, opponent_team.id],
         team2_id: [reporting_team.id, opponent_team.id]
-        )
+      )
 
       if match.nil?
         render json: { error: "指定された試合が見つかりません" }, status: :unprocessable_entity
@@ -56,7 +57,7 @@ module Api
         #相手チームからのレポートが既にあって、同じ結果であればscoreを更新
         update_match_score(match)
 
-        render json: { message: "試合結果を受け付けました", match_report: match_report  }, status: :created
+        render json: { message: "試合結果を受け付けました", match_report: match_report }, status: :created
       else
         render json: { errors: match_reports.errors.full_messages }, status: :unprocessable_entity
       end
@@ -64,8 +65,8 @@ module Api
 
     #管理者がレポートを変更して強制的に完了にする
     def update
-
     end
+
 private
     def match_reports_params
       params.require(:match_report).permit(

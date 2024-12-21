@@ -2,16 +2,17 @@ module Api
   class MatchesController < ApplicationController
     #試合確定後の対戦表表示
     def index
-      requested_date = params[:date]
+      requested_date = Date.today
 
-      if requested_date.blank?
-        render json: { error: "日付を指定してください" },status: :unprocessable_entity
+      # リクエストされた日付以降の試合を取得
+      matches = Match.joins(:league).includes(:team1, :team2)
+                 .where("DATE(matches.date) >= ?", requested_date)
+                 .order("leagues.category ASC, leagues.division ASC, matches.date ASC")
+
+      if matches.empty?
+        render json: { message: "まだ試合が組まれていません" }, status: :ok
         return
       end
-
-      matches = Match.includes(:league, :team1, :team2)
-                     .where("DATE(matches.date) = ?", requested_date)
-                     .order("leagues.category ASC, leagues.division ASC")
 
       render json: matches.map { |match|
         league = "#{match.league.category}#{match.league.division}部"
@@ -40,68 +41,75 @@ module Api
 
     #管理者用の試合組み合わせ決定ページ
     def create
-      team1 = Team.find_by(common_name: params[:team1_common])
-      team2 = Team.find_by(common_name: params[:team2_common])
-      league_id = team1.league_id
+      # リクエストボディから直接取得
+      matches = match_params
 
-      if team1.nil? || team2.nil? || team1.league_id != team2.league_id
-        render json: {error: '適切なテームを選択してください'},status: :unprocessable_entity
+      if matches.blank? || !matches.is_a?(Array)
+        render json: { error: 'データ形式が正しくありません' }, status: :unprocessable_entity
         return
       end
 
-      if params[:place].blank?
-        render json: { error: '試合会場を指定してください' }, status: :unprocessable_entity
-        return
+      created_matches = []
+      errors = []
+
+      matches.each do |match|
+        # チームの検証と取得
+        team1 = Team.find_by(common_name: match[:team1_common])
+        team2 = Team.find_by(common_name: match[:team2_common])
+
+        if team1.nil? || team2.nil? || team1.league_id != team2.league_id
+          errors << { error: "適切なチームを選択してください: #{match[:team1_common]} vs #{match[:team2_common]}" }
+          next
+        end
+
+        # 会場の検証
+        if match[:place].blank?
+          errors << { error: "試合会場を指定してください", match: match }
+          next
+        end
+
+        # 試合日時の計算
+        league_category = team1.league.category
+        game_date = next_available_date(league_category, match[:times])
+
+        # Matchの作成
+        new_match = Match.new(
+          league_id: team1.league_id,
+          date: game_date,
+          team1_id: team1.id,
+          team2_id: team2.id,
+          place: match[:place]
+        )
+
+        if new_match.save
+          created_matches << new_match
+        else
+          errors << { error: new_match.errors.full_messages, match: match }
+        end
       end
 
-      match = Match.new(
-        league_id: league_id,
-        date:      params[:date],
-        team1_id:  team1.id,
-        team2_id:  team2.id,
-        place:     params[:place]
-      )
-
-      if match.save
-        render json: { message: '組み合わせを作成しました',match: match },status: :created
+      if errors.empty?
+        render json: { message: 'すべての試合を作成しました', matches: created_matches }, status: :created
       else
-        render json: { errors: match.errors.full_messages },status: :unprpssesable_entity
-      end
-    end
-    #match_reportを元に更新
-    def update
-      match = Match.find(params[:id])
-      if match.nil?
-        render json: { error: "指定された試合が見つかりません" }, status: :not_found
-        return
-      end
-
-      if match.update(match_update_params)
-        render json: { message: "試合結果を更新しました", match: match }, status: :ok
-      else
-        render json: { errors: match.errors.full_messages }, status: :unprocessable_entity
-      end
-    end
-
-    def destroy
-      match = Match.find(id: params[:id])
-      if match.nil?
-        render json: { error: "指定された試合が見つかりません" }, status: :not_found
-        return
-      end
-
-      if match.destroy
-        render json: { message: "試合を削除しました" }, status: :ok
-      else
-        render json: { errors: match.errors.full_messages }, status: :unprocessable_entity
+        render json: { message: "一部または全ての試合の作成に失敗しました", errors: errors }, status: :unprocessable_entity
       end
     end
 
     private
+    def match_params
+      params.require(:matches).map do |match|
+        match.permit(:team1_common, :team2_common, :place, :times)
+      end
+    end
 
-    # 更新時に許可するパラメータ
-    def match_update_params
-      params.require(:match).permit(:team1_score, :team2_score)
+    def next_available_date(category, times)
+      today = Date.today
+      target_weekday = category == "土曜" ? 6 : 0
+      days_to_add = (target_weekday - today.wday) % 7
+      days_to_add = 7 if days_to_add == 0
+      next_date = today + days_to_add
+      game_times = times.split(":").map(&:to_i)
+      Time.new(next_date.year, next_date.month, next_date.day, game_times[0], game_times[1])
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_20_150841) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_21_171954) do
   create_table "informations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -79,12 +79,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_150841) do
     t.string "team_name", null: false
     t.string "common_name", null: false
     t.string "email", null: false
-    t.string "password_digest", null: false
+    t.string "encrypted_password", null: false
     t.bigint "league_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.index ["email"], name: "index_teams_on_email", unique: true
     t.index ["league_id"], name: "index_teams_on_league_id"
+    t.index ["reset_password_token"], name: "index_teams_on_reset_password_token", unique: true
     t.index ["team_name"], name: "index_teams_on_team_name", unique: true
   end
 
