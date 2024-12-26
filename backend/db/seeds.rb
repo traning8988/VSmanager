@@ -1,3 +1,23 @@
+puts "Cleaning up database..."
+
+# テーブルのクリア
+MatchReport.delete_all
+MatchRequest.delete_all
+Match.delete_all
+TeamInformation.delete_all
+Information.delete_all
+Team.delete_all
+League.delete_all
+
+# 自動増分のリセット
+ActiveRecord::Base.connection.execute("ALTER TABLE match_reports AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE match_requests AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE matches AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE team_informations AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE informations AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE teams AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE leagues AUTO_INCREMENT = 1")
+
 # leagues
 league1 = League.create!(category: "土曜", division: 1)
 league2 = League.create!(category: "土曜", division: 2)
@@ -17,7 +37,8 @@ teams = []
     common_name: "common_name#{letter}",
     email: "team#{letter}@example.com",
     password: "password#{letter}",
-    league: league # リレーションを正確に指定
+    league: league,
+    confirmed_at: Time.current
   )
 end
 
@@ -25,13 +46,10 @@ end
 def next_or_previous_weekend(today)
   target_weekdays = [6, 0] # 土曜日:6, 日曜日:0
 
-  # 今日以降の最初の土日
   upcoming = (0..6).map { |i| today + i }.find { |d| target_weekdays.include?(d.wday) }
-
-  # 今日以前の最後の土日
   previous = (-6..0).map { |i| today + i }.find { |d| target_weekdays.include?(d.wday) }
 
-  [upcoming, previous].compact.sample # どちらかをランダムで返す
+  [upcoming, previous].compact.sample
 end
 
 # match_requests
@@ -48,14 +66,10 @@ end
   league = leagues.sample
   league_teams = league.teams
 
-  # 同じリーグ内でランダムに2チーム選択
   if league_teams.size >= 2
     team1, team2 = league_teams.sample(2)
-
-    # 同じリーグ内のリクエスト日からランダムに1つ選択
     common_requested_date = MatchRequest.where(team: [team1, team2]).pluck(:requested_date).uniq.sample
-
-    next unless common_requested_date # 共通の日付がない場合はスキップ
+    next unless common_requested_date
 
     Match.create!(
       league: league,

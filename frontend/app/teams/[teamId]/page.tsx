@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 
-export default async function Home({ params }: { params: { teamId: string } }) {
+export default async function Teams({ params }: { params: { teamId: string } }) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teams/${params.teamId}`,{
     cache: "no-store"
   })
   if (!res.ok) {
     if (res.status === 404) {
-      redirect('/not-found');
+      redirect('/sign-in');
     } else {
       throw new Error('サーバーエラーが発生しました');
     }
