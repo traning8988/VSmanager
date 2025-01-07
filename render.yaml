@@ -31,4 +31,3 @@ services:
       - key: RAILS_ENV
         value: production
     buildCommand: bundle exec rake assets:precompile
-    startCommand: bundle exec rails server -b 0.0.0.0
