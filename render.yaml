@@ -1,5 +1,5 @@
 services:
-  - type: web
+  - type: private_service
     name: mysql-db
     env: docker
     plan: free
@@ -8,7 +8,7 @@ services:
       - key: MYSQL_ROOT_PASSWORD
         value: password
       - key: MYSQL_DATABASE
-        value: app_development
+        value: app_production
       - key: MYSQL_USER
         value: user
       - key: MYSQL_PASSWORD
@@ -21,9 +21,9 @@ services:
     dockerfilePath: ./backend/Dockerfile
     envVars:
       - key: DATABASE_HOST
-        value: mysql-db:3306 # MySQLサービス名
+        value: mysql-db
       - key: DATABASE_NAME
-        value: app_development
+        value: app_production
       - key: DATABASE_USER
         value: user
       - key: DATABASE_PASSWORD
@@ -31,3 +31,4 @@ services:
       - key: RAILS_ENV
         value: production
     buildCommand: bundle exec rake assets:precompile
+    startCommand: bundle exec rails server -b 0.0.0.0
