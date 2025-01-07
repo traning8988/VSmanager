@@ -1,6 +1,6 @@
 const InfoMsg = () => {
   return (
-    <div>info_mgt</div>
+    <div>info-msg</div>
   )
 }
 

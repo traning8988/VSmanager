@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :teams
+  mount_devise_token_auth_for 'Team', at: 'auth', skip: [:omniauth_callbacks]
   namespace :api do
     resources :teams, only: [:show]
-    resources :league, only: [:show]
+    resources :leagues, only: [:show]
     resources :matches, only: [:index, :show, :create, :update, :destroy]
     resources :match_requests, only: [:index, :create, :destroy]
     resources :match_reports, only: [:index, :create]

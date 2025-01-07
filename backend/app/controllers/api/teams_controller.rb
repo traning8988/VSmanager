@@ -1,5 +1,7 @@
 module Api
   class TeamsController < ApplicationController
+
+
     def show
       team = Team.find(params[:id])
       if team.nil?
