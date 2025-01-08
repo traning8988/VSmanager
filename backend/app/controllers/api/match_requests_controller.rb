@@ -1,6 +1,6 @@
 module Api
   class MatchRequestsController < ApplicationController
-    before_action :set_current_user
+    before_action :set_current_team
     #管理者用の試合届確認画面に表示
     def index
       next_saturday = next_available_date("土曜")
@@ -31,7 +31,7 @@ module Api
     def create
       #例外処理
       begin
-        team = Team.find_by(id: @current_user.id)
+        team = Team.find_by(id: @current_team.id)
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Team not found" }, status: :not_found
         return

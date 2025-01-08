@@ -1,17 +1,66 @@
-import { redirect } from "next/navigation";
+'use client';
 
-export default async function Teams({ params }: { params: { teamId: string } }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/teams/${params.teamId}`,{
-    cache: "no-store"
-  })
-  if (!res.ok) {
-    if (res.status === 404) {
-      redirect('/sign-in');
-    } else {
-      throw new Error('サーバーエラーが発生しました');
-    }
+import { use, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import api from "../../utils/api";
+import { toast } from "react-toastify";
+
+type Team = {
+  team_name: string;
+  common_name: string;
+  league: {
+    category: string;
+    division: string;
+  };
+  record: {
+    wins: number;
+    losses: number;
+    draws: number;
+  };
+};
+
+export default function Teams({ params }: { params: Promise<{ teamId: string }> }) {
+  const [team, setTeam] = useState<Team | null>(null);
+  const router = useRouter();
+  const { teamId } = use(params);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      if (!teamId) {
+        toast.error("チームIDが見つかりません。ログインページにリダイレクトします。");
+        router.push('/sign-in');
+        return;
+      }
+
+      const accessToken = localStorage.getItem('access-token');
+      const client = localStorage.getItem('client');
+      const uid = localStorage.getItem('uid');
+
+      console.log("Access Token:", accessToken);
+      console.log("Client:", client);
+      console.log("UID:", uid);
+
+      if (!accessToken || !client || !uid) {
+        toast.error("認証情報が不足しています。ログインページにリダイレクトします。");
+        router.push('/sign-in');
+        return;
+      }
+
+      try {
+        const res = await api.get(`api/teams/${teamId}`)
+        setTeam(res.data)
+      } catch {
+          toast.error("サーバーエラーが発生しました。");
+          router.push("/sign-in");
+      }
+    };
+
+    fetchTeam();
+  }, [teamId, router]);
+
+  if (!team) {
+    return <p>Loading...</p>;
   }
-  const team = await res.json();
   return (
     <div className="flex flex-col items-center justify-center space-y-6 mt-4">
       <h1 className="text-2xl text-center">{team.team_name}</h1>
