@@ -9,14 +9,14 @@ Information.delete_all
 Team.delete_all
 League.delete_all
 
-# 自動増分のリセット
-ActiveRecord::Base.connection.execute("ALTER TABLE match_reports AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE match_requests AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE matches AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE team_informations AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE informations AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE teams AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE leagues AUTO_INCREMENT = 1")
+# 自動増分のリセット（PostgreSQL 用）
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE match_reports RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE match_requests RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE matches RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE team_informations RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE informations RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE teams RESTART IDENTITY CASCADE")
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE leagues RESTART IDENTITY CASCADE")
 
 # leagues
 league1 = League.create!(category: "土曜", division: 1)
