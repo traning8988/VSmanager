@@ -11,7 +11,10 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
-  create_table "informations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "informations", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.string "target_audience"
@@ -20,14 +23,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "leagues", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "leagues", force: :cascade do |t|
     t.string "category", null: false
     t.integer "division", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "match_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "match_reports", force: :cascade do |t|
     t.bigint "match_id", null: false
     t.bigint "reporting_team_id", null: false
     t.bigint "opponent_team_id", null: false
@@ -40,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
     t.index ["reporting_team_id"], name: "index_match_reports_on_reporting_team_id"
   end
 
-  create_table "match_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "match_requests", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.date "requested_date", null: false
     t.datetime "created_at", null: false
@@ -49,7 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
     t.index ["team_id"], name: "index_match_requests_on_team_id"
   end
 
-  create_table "matches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "matches", force: :cascade do |t|
     t.bigint "league_id", null: false
     t.datetime "date", null: false
     t.bigint "team1_id", null: false
@@ -65,7 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
     t.index ["team2_id"], name: "index_matches_on_team2_id"
   end
 
-  create_table "team_informations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "team_informations", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "information_id", null: false
     t.datetime "created_at", null: false
@@ -74,7 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_26_173325) do
     t.index ["team_id"], name: "index_team_informations_on_team_id"
   end
 
-  create_table "teams", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "teams", force: :cascade do |t|
     t.string "leader_name", null: false
     t.string "team_name", null: false
     t.string "common_name", null: false
