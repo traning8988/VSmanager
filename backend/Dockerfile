@@ -10,8 +10,6 @@ COPY Gemfile Gemfile.lock /app/
 # bundle installを実行
 RUN bundle install
 
-RUN bundle exec rails db:create
-RUN bundle exec rails db:migrate
 # ホストのファイルをコンテナ内の作業ディレクトリにコピー
 COPY . /app/
 
