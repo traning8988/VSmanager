@@ -1,7 +1,6 @@
+import { redirect } from 'next/navigation';
 
-
-export default function app() {
-  return (
-    <h1>トップページ</h1>
-  );
+export default async function Home() {
+  // サーバーサイドでのリダイレクト
+  redirect('/sign-in');
 }
