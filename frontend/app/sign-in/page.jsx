@@ -4,44 +4,34 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import api from '../utils/api';
 import { toast } from 'react-toastify';
+import { teamIdAtom } from "../utils/store/atoms";
+import { useAtom } from "jotai/react";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [teamId, setTeamId] = useAtom(teamIdAtom);
+  const [commonName, setCommonName] = useState('');
   const router = useRouter();
+
 
   const handleLogin = async () => {
     try {
-      const res = await api.post('/auth/sign_in', { email, password });
+      const res = await api.post('/sign_in', { email, password });
 
-      const accessToken = res.headers['access-token'];
-      const client = res.headers['client'];
-      const uid = res.headers['uid'];
-
-      console.log("Access Token:", accessToken);
-      console.log("Client:", client);
-      console.log("UID:", uid);
+      const { token, team } = res.data;
       
-      if (accessToken && client && uid) {
-        localStorage.setItem('access-token', accessToken);
-        localStorage.setItem('client', client);
-        localStorage.setItem('uid', uid);
-
-        console.log("レスポンスデータ:", res.data);
-
-        const teamId = res.data.data?.id || res.data.id;
-        console.log("Team ID:", teamId);
-
-        toast.success('ログインに成功しました');
-        router.push(`/teams/${teamId}`)
-
+      if (token && team) {
+        localStorage.setItem('jwt-token', token);
+        setTeamId(team.id);
+        setCommonName(team.commonName);
+        router.push('/teams')
       } else {
-        throw new Error('トークン情報が不足しています');
+        throw new Error('トークンが見つかりません');
       }
-
     } catch (error) {
-      console.error(error)
-      toast.error('ログインに失敗しました');
+      console.error('エラー:', error.response?.data?.error || error.message);
+      toast.error(error.response?.data?.error || 'ログインに失敗しました');
     }
   } 
   return (

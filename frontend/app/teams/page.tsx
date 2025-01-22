@@ -1,9 +1,11 @@
 'use client';
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import api from "../../utils/api";
+import api from "../utils/api";
 import { toast } from "react-toastify";
+import { useAtom } from "jotai/react";
+import { teamIdAtom } from "../utils/store/atoms";
 
 type Team = {
   team_name: string;
@@ -19,48 +21,43 @@ type Team = {
   };
 };
 
-export default function Teams({ params }: { params: Promise<{ teamId: string }> }) {
+export default function Teams() {
   const [team, setTeam] = useState<Team | null>(null);
+  const [teamId] = useAtom(teamIdAtom);
   const router = useRouter();
-  const { teamId } = use(params);
 
   useEffect(() => {
     const fetchTeam = async () => {
       if (!teamId) {
-        toast.error("チームIDが見つかりません。ログインページにリダイレクトします。");
+        toast.error("チームが見つかりません。ログインページにリダイレクトします。");
         router.push('/sign-in');
         return;
       }
 
-      const accessToken = localStorage.getItem('access-token');
-      const client = localStorage.getItem('client');
-      const uid = localStorage.getItem('uid');
+      const token = localStorage.getItem('jwt-token');
 
-      console.log("Access Token:", accessToken);
-      console.log("Client:", client);
-      console.log("UID:", uid);
-
-      if (!accessToken || !client || !uid) {
+      if (!token) {
         toast.error("認証情報が不足しています。ログインページにリダイレクトします。");
         router.push('/sign-in');
         return;
       }
 
       try {
-        const res = await api.get(`api/teams/${teamId}`)
-        setTeam(res.data)
+        const res = await api.get(`api/teams/${teamId}`);
+        setTeam(res.data);
       } catch {
-          toast.error("サーバーエラーが発生しました。");
+          toast.error("ログインしてください");
           router.push("/sign-in");
       }
     };
 
     fetchTeam();
-  }, [teamId, router]);
+  }, []);
 
   if (!team) {
-    return <p>Loading...</p>;
+    return null;
   }
+  
   return (
     <div className="flex flex-col items-center justify-center space-y-6 mt-4">
       <h1 className="text-2xl text-center">{team.team_name}</h1>

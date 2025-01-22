@@ -1,11 +1,10 @@
 module Api
   class TeamsController < ApplicationController
-    before_action :authenticate_team!, only: [:show]
 
     def show
       team = current_team
       if team.nil?
-        render json: { error: "ログインしてください" }, status: :not_found
+        render json: { error: "ログインしてください" }, status: :unauthorized
         return
       end
 
