@@ -16,7 +16,7 @@ export default function SignOut() {
       if (token) {
       await api.delete("/logout");
       }
-    } catch (error) {
+    } catch {
       console.error("ログアウトに失敗しました:");
     } finally {
       localStorage.removeItem("jwt-token");

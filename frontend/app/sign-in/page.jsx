@@ -10,8 +10,8 @@ import { useAtom } from "jotai/react";
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [teamId, setTeamId] = useAtom(teamIdAtom);
-  const [commonName, setCommonName] = useState('');
+  const [, setTeamId] = useAtom(teamIdAtom);
+  const [, setCommonName] = useState('');
   const router = useRouter();
 
 

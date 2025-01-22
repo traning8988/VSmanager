@@ -52,7 +52,7 @@ export default function Teams() {
     };
 
     fetchTeam();
-  }, []);
+  }, [router]);
 
   if (!team) {
     return null;
