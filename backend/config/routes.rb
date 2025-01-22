@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'Team', at: 'auth'
+  post '/sign_in', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
   namespace :api do
     resources :teams, only: [:show]
     resources :leagues, only: [:show]

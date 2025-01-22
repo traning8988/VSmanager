@@ -6,22 +6,16 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// リクエスト時にトークンを付与
+// リクエスト時にJWTを自動で設定
 api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem('access-token');
-  const client = localStorage.getItem('client');
-  const uid = localStorage.getItem('uid');
-
-  console.log('ローカルストレージ:', { accessToken, client, uid });
-  
-  if (accessToken && client && uid) {
-    config.headers['access-token'] = accessToken;
-    config.headers['client'] = client;
-    config.headers['uid'] = uid;
+  const token = localStorage.getItem('jwt-token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-  console.log('リクエストヘッダー:', config.headers);
   return config;
-});
-
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 export default api;

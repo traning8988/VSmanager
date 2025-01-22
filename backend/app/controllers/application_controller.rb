@@ -1,15 +1,20 @@
 class ApplicationController < ActionController::API
-	include DeviseTokenAuth::Concerns::SetUserByToken
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_request
 
-  protected
+  private
 
-  # 新しいパラメーターを許可する場合の設定
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+  def authenticate_request
+    token = request.headers['Authorization']
+    decoded_token = JwtService.decode(token.split(' ').last) if token
+
+    if decoded_token
+      @current_team = Team.find_by(id: decoded_token[:team_id])
+    else
+      render json: { error: 'Not Authorized' }, status: :unauthorized
+    end
   end
 
   def current_team
-    @current_team ||= Team.find_by(uid: request.headers['uid'])
+    @current_team
   end
 end

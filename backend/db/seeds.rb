@@ -36,9 +36,8 @@ teams = []
     team_name: "team_name#{letter}",
     common_name: "common_name#{letter}",
     email: "team#{letter}@example.com",
-    password: "password#{letter}",
-    league: league,
-    confirmed_at: Time.current
+    password_digest: BCrypt::Password.create("password#{letter}"), # ハッシュ化されたパスワードを保存
+    league: league
   )
 end
 

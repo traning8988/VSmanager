@@ -1,8 +1,5 @@
 class Team < ApplicationRecord
-  extend Devise::Models
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable
-  include DeviseTokenAuth::Concerns::User
+  has_secure_password
 
   belongs_to :league
   has_many :match_requests
