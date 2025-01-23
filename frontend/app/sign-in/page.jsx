@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { teamIdAtom } from "../utils/store/atoms";
+import { isLoggedInAtom, teamIdAtom } from "../utils/store/atoms";
 import { useAtom } from "jotai/react";
 
 export default function SignIn() {
@@ -12,6 +12,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [, setTeamId] = useAtom(teamIdAtom);
   const [, setCommonName] = useState('');
+  const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
 
 
@@ -25,6 +26,7 @@ export default function SignIn() {
         localStorage.setItem('jwt-token', token);
         setTeamId(team.id);
         setCommonName(team.commonName);
+        setIsLoggedIn(true);
         router.push('/teams')
       } else {
         throw new Error('トークンが見つかりません');
