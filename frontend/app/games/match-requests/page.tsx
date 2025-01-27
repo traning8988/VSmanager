@@ -34,7 +34,7 @@ export default function MatchRequests() {
     const method = data.actionType === "試合を希望する" ? "POST" : "DELETE";
 
     try {
-      const res = await api({
+      await api({
         url: endpoint,
         method: method,
         data: { double_header: data.doubleType },

@@ -4,8 +4,6 @@ import api from "@/app/utils/api";
 import MatchingForm from "./MatchingForm";
 import MatchingTable from "./MatchingTable"
 import useResetAuth from "@/hooks/useResetAuth";
-import { useAtom } from "jotai/react";
-import { teamIdAtom } from "@/app/utils/store/atoms";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
@@ -19,7 +17,6 @@ type MatchRequestsIndex = {
 }
 
 export default function Matching() {
-  const [teamId] = useAtom(teamIdAtom);
   const { resetAuth } = useResetAuth();
   const [error, setError] = useState<string | null>(null);
   const [matchRequestsIndex, setMatchRequestsIndex] = useState<MatchRequestsIndex[]>([]);
