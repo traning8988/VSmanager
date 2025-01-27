@@ -1,5 +1,6 @@
 "use client"
 
+import api from "@/app/utils/api";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -93,19 +94,15 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
   
     console.log("Formatted Form Data:", formattedData);
     try{
-      const res = await fetch(`http://localhost:3000/api/matches`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formattedData)
-      })
+      const res = await api.post(`/api/matches`, formattedData)
 
-      if (!res.ok){
-        const errorData = await res.json();
+      if (res.status !== 201){
+        const errorData = res.data;
         console.log("Server error:", errorData);
         alert(errorData.error || "データ送信に失敗しました。");
         return;
       }
-      const result = await res.json(); // サーバーから返ってきたレスポンスを確認
+      const result = res.data; // サーバーから返ってきたレスポンスを確認
       console.log("Response Data:", result);
       alert("データ送信に成功しました");
       router.push("/games")
@@ -141,10 +138,10 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 max-w-full px-2">
         {fields.map((field, index) => (
-          <div key={field.id} className="space-y-4">
-            <h2 className="text-lg font-semibold">マッチセット {index + 1}</h2>
+          <div key={field.id} className="flex items-center gap-2">
+            <h2 className="text-center font-semibold text-sm">{index + 1}</h2>
             <FormField
               control={form.control}
               name={`matches.${index}.team1_common`}
@@ -153,7 +150,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
               }}
               render={({ field, fieldState }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-[200px]">
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
@@ -163,7 +160,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
                         value={field.value || ""}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="チームを選択してください">
+                          <SelectValue placeholder="チームを選択">
                             {expendMatchRequestsIndex.find((team) => team.id.toString() === field.value)?.common_name || "チームを選択してください"}
                           </SelectValue>
                         </SelectTrigger>
@@ -183,7 +180,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
                 )
               }}
             />   
-            <h1 className="ml-4 mr-4">対</h1>
+            <h1 className="">対</h1>
             <FormField
               control={form.control}
               name={`matches.${index}.team2_common`}
@@ -214,7 +211,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
               }}
               render={({ field, fieldState }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-[200px]">
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
@@ -224,7 +221,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
                         value={field.value || ""}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="チームを選択してください">
+                          <SelectValue placeholder="チームを選択">
                             {expendMatchRequestsIndex.find((team) => team.id.toString() === field.value)?.common_name || "チームを選択してください"}
                           </SelectValue>
                         </SelectTrigger>
@@ -251,14 +248,14 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
                 required: "会場を選択してください"
               }}
               render={({ field, fieldState }) => (
-                  <FormItem>
+                  <FormItem className="w-[200px]">
                     <FormControl>
                       <Select 
                         onValueChange={field.onChange} 
                         defaultValue=""
                         >
                         <SelectTrigger>
-                          <SelectValue placeholder= "会場を選択してください">{field.value}</SelectValue>
+                          <SelectValue placeholder="会場を選択">{field.value}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="大宮健保グラウンド">大宮健保グラウンド</SelectItem>
@@ -281,14 +278,14 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
                 required: "時間を選択してください"
               }}
               render={({ field, fieldState }) => (
-                  <FormItem>
+                  <FormItem className="w-[150px]">
                     <FormControl>
                       <Select 
                         onValueChange={field.onChange} 
                         defaultValue=""
                         >
                         <SelectTrigger>
-                          <SelectValue placeholder= "時間を選択してください">{field.value}</SelectValue>
+                          <SelectValue placeholder= "時間を選択">{field.value}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {timeOptions().map((time, index) => {

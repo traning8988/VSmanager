@@ -1,5 +1,6 @@
 "use client"
 
+import api from "@/app/utils/api";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -27,24 +28,23 @@ export default function MatchRequests() {
 
   const onSubmit = async (data: FormData) => {
     const endpoint = data.actionType === "試合を希望する"
-      ? `http://localhost:3000/api/match_requests`
-      : `http://localhost:3000/api/match_requests/2`;
+      ? `/api/match_requests`
+      : `/api/match_requests/2`;
 
     const method = data.actionType === "試合を希望する" ? "POST" : "DELETE";
 
-    console.log("Endpoint:", endpoint);
-    const res = await fetch(endpoint, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ double_header: data.doubleType }),
-    })
-    if (res.ok) {
-      alert("送信成功")
-      router.push("/games")
-    } else {
-      alert("送信失敗")
+    try {
+      const res = await api({
+        url: endpoint,
+        method: method,
+        data: { double_header: data.doubleType },
+      });
+
+      alert('試合届を提出しました');
+      router.push("/games");
+    } catch (error) {
+      console.error("送信失敗:", error);
+      alert("送信失敗");
     }
   };
 

@@ -1,14 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import api from "../utils/api";
-import { useAtom } from "jotai/react";
-import { teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
+import useResetAuth from "@/hooks/useResetAuth";
 
 export default function SignOut() {
-  const router = useRouter();
-  const [, setTeamId] = useAtom(teamIdAtom);
-  const [, setCommonName] = useAtom(teamCommonNameAtom);
+  const { resetAuth } = useResetAuth();
 
   const handleLogout = async () => {
     try {
@@ -19,15 +15,12 @@ export default function SignOut() {
     } catch {
       console.error("ログアウトに失敗しました:");
     } finally {
-      localStorage.removeItem("jwt-token");
-      setTeamId(null);
-      setCommonName('');
-      router.push("/sign-in");
+      resetAuth();
     }
   };
 
   return (
-    <button onClick={handleLogout} className="hover:underline mr-2">
+    <button onClick={handleLogout} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">
       ログアウト
     </button>
   );

@@ -17,4 +17,10 @@ class ApplicationController < ActionController::API
   def current_team
     @current_team
   end
+
+  def authenticate_team!
+    unless current_team
+      render json: { error: "ログインしてください" }, status: :unauthorized
+    end
+  end
 end

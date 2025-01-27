@@ -1,31 +1,50 @@
-import React from 'react'
+'use client'
+
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 type MatchingIndex = {
-  league: string
-  date:   string
-  place:  string
-  team1:  string
-  team2:  string
-  team1_score: number | null
-  team2_score: number | null
-}
+  id: number;
+  league: string;
+  date: string;
+  time: string;
+  place: string;
+  team1: string;
+  team2: string;
+  team1_score: number | null;
+  team2_score: number | null;
+};
 
+export default function MatchingList({ matchingIndex }: { matchingIndex: MatchingIndex[] }) {
 
-export default function MatchingList ({ matchingIndex }: { matchingIndex: MatchingIndex[] }) {
-  return(
+  return (
     <div>
-      <h1>試合リスト</h1>
-      <ul>
-        {matchingIndex.map((match, index) => (
-          <li key={index} className="mb-4 border p-4 rounded">
-            <p><strong>リーグ:</strong> {match.league}</p>
-            <p><strong>日付:</strong> {match.date}</p>
-            <p><strong>場所:</strong> {match.place}</p>
-            <p><strong>チーム1:</strong> {match.team1} (得点: {match.team1_score ?? "未登録"})</p>
-            <p><strong>チーム2:</strong> {match.team2} (得点: {match.team2_score ?? "未登録"})</p>
-          </li>
+    <h1 className="m-2">今週の試合リスト</h1>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>リーグ</TableHead>
+          <TableHead>試合日</TableHead>
+          <TableHead>チーム名</TableHead>
+          <TableHead>対</TableHead>
+          <TableHead>チーム名</TableHead>
+          <TableHead>試合会場</TableHead>
+          <TableHead>試合開始時間</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {matchingIndex.map((match) => (
+          <TableRow key={match.id}>
+            <TableCell>{match.league}</TableCell>
+            <TableCell>{match.date}</TableCell>
+            <TableCell>{match.team1}</TableCell>
+            <TableCell>対</TableCell>
+            <TableCell>{match.team2}</TableCell>
+            <TableCell>{match.place}</TableCell>
+            <TableCell>{match.time}</TableCell>
+          </TableRow>
         ))}
-      </ul>
+      </TableBody>
+    </Table>
     </div>
-  )
+  );
 }

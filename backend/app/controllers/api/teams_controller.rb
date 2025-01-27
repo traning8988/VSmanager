@@ -1,5 +1,6 @@
 module Api
   class TeamsController < ApplicationController
+    before_action :authenticate_team!
 
     def show
       team = current_team
