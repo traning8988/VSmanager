@@ -1,5 +1,6 @@
 module Api
   class MatchesController < ApplicationController
+    before_action :authenticate_team!
     #試合確定後の対戦表表示
     def index
       requested_date = Date.today
@@ -14,18 +15,20 @@ module Api
         return
       end
 
-      render json: matches.map { |match|
-        league = "#{match.league.category}#{match.league.division}部"
+      response = matches.map do |match|
         {
-          league: league,
-          date:   match.date.strftime("%Y/%m/%d %H:%M"),
-          place:  match.place,
-          team1:  match.team1.common_name,
-          team2:  match.team2.common_name,
-          team1_score: match.team1_score || nil,
-          team2_score: match.team2_score || nil
+          id: match.id,
+          league: "#{match.league.category}#{match.league.division}部",
+          date: match.date.strftime("%Y年%m月%d日"),
+          time: match.date.strftime("%H時%M分"),
+          place: match.place,
+          team1: match.team1.common_name,
+          team2: match.team2.common_name,
+          team1_score: match.team1_score,
+          team2_score: match.team2_score
         }
-      }, status: :ok
+      end
+      render json: response, status: :ok
     end
     #マイページに表示
     def show

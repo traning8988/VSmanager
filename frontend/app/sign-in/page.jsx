@@ -1,30 +1,37 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { teamIdAtom } from "../utils/store/atoms";
+import { isLoggedInAtom, teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
 import { useAtom } from "jotai/react";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [, setTeamId] = useAtom(teamIdAtom);
-  const [, setCommonName] = useState('');
+  const [, setCommonName] = useAtom(teamCommonNameAtom);
+  const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
 
-
+  useEffect(() =>{
+    localStorage.removeItem("jwt-token");
+    setIsLoggedIn(false);
+    setTeamId(null);
+    setCommonName('');
+  }, []);
   const handleLogin = async () => {
     try {
       const res = await api.post('/sign_in', { email, password });
 
       const { token, team } = res.data;
-      
+      console.log('team', team.id);
       if (token && team) {
         localStorage.setItem('jwt-token', token);
         setTeamId(team.id);
         setCommonName(team.commonName);
+        setIsLoggedIn(true);
         router.push('/teams')
       } else {
         throw new Error('トークンが見つかりません');
@@ -35,7 +42,7 @@ export default function SignIn() {
     }
   } 
   return (
-    <div className="flex items-center justify-center pt-32">
+    <div className="flex items-center justify-center pt-24">
       <div className="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-black">
         <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">ログイン</h1>
         <div className="space-y-4">

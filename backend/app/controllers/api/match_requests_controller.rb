@@ -1,6 +1,6 @@
 module Api
   class MatchRequestsController < ApplicationController
-    before_action :set_current_team
+    before_action :authenticate_team!
     #管理者用の試合届確認画面に表示
     def index
       next_saturday = next_available_date("土曜")
@@ -9,7 +9,7 @@ module Api
       match_requests = MatchRequest.includes(team: :league).where(requested_date: [next_saturday, next_sunday]).order("leagues.category ASC, leagues.division ASC")
 
       if match_requests.nil? || match_requests.empty?
-        render json: { error: "期間内の試合届けはありません"}
+        render json: { error: '期間内の試合届けはありません'}
         return
       end
 
@@ -31,7 +31,7 @@ module Api
     def create
       #例外処理
       begin
-        team = Team.find_by(id: @current_team.id)
+        team = Team.find_by(id: current_team.id)
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Team not found" }, status: :not_found
         return
@@ -61,10 +61,10 @@ module Api
     end
 
     def destroy
-      league_category = @current_user.league.category
+      league_category = current_team.league.category
       game_date = next_available_date(league_category)
 
-      match_request = MatchRequest.find_by(team_id: @current_user.id, requested_date: game_date)
+      match_request = MatchRequest.find_by(team_id: current_team.id, requested_date: game_date)
       if match_request
         match_request.destroy
         render json: { message: '試合届を取り消しました' }, status: :ok
@@ -82,9 +82,5 @@ module Api
       today + days_to_add
     end
 
-    # 仮にteam_id:2で実装
-    def set_current_user
-      @current_user = Team.find(2)
-    end
   end
 end
