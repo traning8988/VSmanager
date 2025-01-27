@@ -18,7 +18,9 @@ export default function Header() {
             <>
               <li><Link href={'/teams'} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">マイページ</Link></li>
               <li><Link href={'/games'} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">試合情報</Link></li>
-              <li><Link href="/results" className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">成績表</Link></li>
+              <li><Link href={'/games/match-requests'} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">試合申し込み</Link></li>
+              {/* <li><Link href={'/games/match-reports'} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">試合結果届け</Link></li>
+              <li><Link href={'/results'} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">成績表</Link></li> */}
               <li><Link href={"/games/matching"} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">今週の試合情報</Link></li>
               <li><SignOut /></li> 
             </>
