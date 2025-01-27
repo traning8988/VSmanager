@@ -98,6 +98,16 @@ module Api
       end
     end
 
+    # def destroy
+    #   requested_date = Date.today
+    #   # リクエストされた日付以降の試合を取得
+    #   matches = Match.joins(:league).includes(:team1, :team2)
+    #              .where("DATE(matches.date) >= ?", requested_date)
+    #              .order("leagues.category ASC, leagues.division ASC, matches.date ASC")
+    #   matches.destroy_all
+    #   render json: { message: '今週の試合リストを削除しました' }, status: :ok
+    # end
+
     private
     def match_params
       params.require(:matches).map do |match|
