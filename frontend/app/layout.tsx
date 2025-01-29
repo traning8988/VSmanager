@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={`bg-zinc-800 text-white ${inter.className}`}>
+      <body className={`bg-zinc-900 text-white ${inter.className}`}>
         <Header />
         <ToastContainer position="top-right" autoClose={5000} />
         <main>{children}</main>

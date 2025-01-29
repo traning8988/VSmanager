@@ -20,7 +20,7 @@ export default function SignOut() {
   };
 
   return (
-    <button onClick={handleLogout} className="flex h-full hover:bg-white hover:text-slate-900 items-center p-6">
+    <button onClick={handleLogout} className="flex w-full h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">
       ログアウト
     </button>
   );
