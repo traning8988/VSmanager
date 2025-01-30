@@ -9,9 +9,9 @@ export default function Header() {
   const [teamId] = useAtom(teamIdAtom); 
 
   return (
-    <header className="bg-zinc-950 text-zinc-50 h-12 flex">
-      <h1 className="flex text-2xl items-center pl-6">VSmanager</h1>
-      {teamId === 1 && <li className="flex h-full items-center p-6 text-sm opacity-50">管理者ページ</li>}
+    <header className="bg-zinc-950 text-zinc-50 h-12 flex z-50 px-16 w-full fixed shadow-md top-0 left-0 opacity-90">
+      <h1 className="flex text-2xl items-center pl-6 font-bold">VSmanager</h1>
+      {teamId === 1 && <li className="flex w-full h-full items-center p-6 text-sm opacity-50">管理者ページ</li>}
       <ul className="list-none flex text-sm max-w-[600px] w-full ml-auto justify-end">
         {isLoggedIn && (
           teamId !== 1 ? (
@@ -25,11 +25,11 @@ export default function Header() {
               <li className="flex-1"><SignOut /></li> 
             </>
           ) : (
-            <>
-              <li className="flex-1"><Link href={"/admin/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">対戦管理ページ</Link></li>
-              <li className="flex-1"><Link href={"/games/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">今週の試合情報</Link></li>
+            <div className="max-w-[400px] w-full flex">
+              <li className="flex-1"><Link href={"/admin/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">対戦管理</Link></li>
+              <li className="flex-1"><Link href={"/games/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">今週の試合</Link></li>
               <li className="flex-1"><SignOut /></li> 
-            </>
+            </div>
           )
         )}
       </ul>

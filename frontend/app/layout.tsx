@@ -22,8 +22,8 @@ export default function RootLayout({
       <body className={`bg-zinc-900 text-white ${inter.className}`}>
         <Header />
         <ToastContainer position="top-right" autoClose={5000} />
-        <main>{children}</main>
-        
+        <main className='pt-16 px-32'>{children}</main>
+        <footer className='h-6'></footer>
       </body>
     </html>
   )

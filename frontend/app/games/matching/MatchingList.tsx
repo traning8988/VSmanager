@@ -18,33 +18,33 @@ export default function MatchingList({ matchingIndex }: { matchingIndex: Matchin
 
   return (
     <div>
-    <h1 className="m-2">今週の試合リスト</h1>
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>リーグ</TableHead>
-          <TableHead>試合日</TableHead>
-          <TableHead>チーム名</TableHead>
-          <TableHead>対</TableHead>
-          <TableHead>チーム名</TableHead>
-          <TableHead>試合会場</TableHead>
-          <TableHead>試合開始時間</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {matchingIndex.map((match) => (
-          <TableRow key={match.id}>
-            <TableCell>{match.league}</TableCell>
-            <TableCell>{match.date}</TableCell>
-            <TableCell>{match.team1}</TableCell>
-            <TableCell>対</TableCell>
-            <TableCell>{match.team2}</TableCell>
-            <TableCell>{match.place}</TableCell>
-            <TableCell>{match.time}</TableCell>
+      <h1 className="m-2">今週の試合リスト</h1>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>リーグ</TableHead>
+            <TableHead>試合日</TableHead>
+            <TableHead>チーム名</TableHead>
+            <TableHead>対</TableHead>
+            <TableHead>チーム名</TableHead>
+            <TableHead>試合会場</TableHead>
+            <TableHead>試合開始時間</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {matchingIndex.map((match) => (
+            <TableRow key={match.id}>
+              <TableCell>{match.league}</TableCell>
+              <TableCell>{match.date}</TableCell>
+              <TableCell>{match.team1}</TableCell>
+              <TableCell>-</TableCell>
+              <TableCell>{match.team2}</TableCell>
+              <TableCell>{match.place}</TableCell>
+              <TableCell>{match.time}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
