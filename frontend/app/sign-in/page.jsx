@@ -62,7 +62,7 @@ export default function SignIn() {
           />
           <Button
             onClick={handleLogin}
-            className="w-full"
+            className="w-full hover:bg-zinc-800 hover:text-white"
           >
             ログイン
           </Button>
