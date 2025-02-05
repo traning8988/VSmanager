@@ -15,7 +15,7 @@ export default function Games() {
   const [isLoading, setIsLoading] = useState(true);
   const [teamId] = useAtom(teamIdAtom);
   const [message, setMessage] = useState("");
-  const [match, setMatch] = useState<Match | null>(null);
+  const [, setMatch] = useState<Match | null>(null);
 
   useEffect(() => {
     const checkAuth = () => {
