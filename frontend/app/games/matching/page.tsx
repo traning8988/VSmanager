@@ -24,12 +24,13 @@ export default function Matching () {
         if (res.status !== 200) {
           throw new Error("データの取得に失敗しました");
         }
-        setMatchingIndex(res.data)
+        setMatchingIndex(res.data.response);
       } catch(error) {
         console.log("データの取得に失敗しました:", error);
       }
     }
     fetchMatchingList();
+    console.log("matchingIndex", matchingIndex);
   }, [])
 
 

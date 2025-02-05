@@ -27,12 +27,16 @@ export default function SignIn() {
 
       const { token, team } = res.data;
       console.log('team', team.id);
-      if (token && team) {
+      if (token && team && team.id) {
         localStorage.setItem('jwt-token', token);
         setTeamId(team.id);
         setCommonName(team.commonName);
         setIsLoggedIn(true);
-        router.push('/teams')
+        if (team.id === 1) {
+          router.push('/admin/matching');
+        } else {
+          router.push('/teams');
+        }
       } else {
         throw new Error('トークンが見つかりません');
       }

@@ -16,8 +16,8 @@ export default function Header() {
         {isLoggedIn && (
           teamId !== 1 ? (
             <>
-              <li className="flex-1"><Link href={'/teams'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">マイページ</Link></li>
-              <li className="flex-1"><Link href={'/games'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">試合情報</Link></li>
+              <li className="flex-1"><Link href={'/teams'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">チーム情報</Link></li>
+              {/* <li className="flex-1"><Link href={'/games'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">試合情報</Link></li> */}
               <li className="flex-1"><Link href={'/games/match-requests'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">試合申し込み</Link></li>
               {/* <li className="flex-1"><Link href={'/games/match-reports'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">試合結果届け</Link></li>
               <li className="flex-1"><Link href={'/results'} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">成績表</Link></li> */}
@@ -27,7 +27,7 @@ export default function Header() {
           ) : (
             <div className="max-w-[400px] w-full flex">
               <li className="flex-1"><Link href={"/admin/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">対戦管理</Link></li>
-              <li className="flex-1"><Link href={"/games/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">今週の試合</Link></li>
+              <li className="flex-1"><Link href={"/games/matching"} className="flex h-full justify-center hover:bg-zinc-50 hover:text-zinc-950 items-center">今週の試合情報</Link></li>
               <li className="flex-1"><SignOut /></li> 
             </div>
           )

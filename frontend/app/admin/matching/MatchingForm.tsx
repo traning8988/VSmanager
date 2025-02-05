@@ -319,12 +319,13 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
             </Button>
           </div>
         ))} 
-        <Button type="button" onClick={() => append({ team1_common: "", team2_common: "", place: "", times:"" })}>
-          セット追加
-        </Button>
+        <div className="space-x-4 pt-4">
+          <Button type="button" onClick={() => append({ team1_common: "", team2_common: "", place: "", times:"" })}>
+            セット追加
+          </Button>
 
-        <Button type="submit">組み合わせ決定</Button>
-
+          <Button type="submit">組み合わせ決定</Button>
+        </div>
       </form>
     </Form >
 
