@@ -3,15 +3,15 @@ module Api
     before_action :authenticate_team!
     #試合確定後の対戦表表示
     def index
-      requested_date = Date.today
+      @requested_date = Date.today
 
       # リクエストされた日付以降の試合を取得
       matches = Match.joins(:league).includes(:team1, :team2)
-                 .where("DATE(matches.date) >= ?", requested_date)
+                 .where("DATE(matches.date) >= ?", @requested_date)
                  .order("leagues.category ASC, leagues.division ASC, matches.date ASC")
 
       if matches.empty?
-        render json: { message: "まだ試合が組まれていません" }, status: :ok
+        render json: { message: "まだ試合が組まれていません", response: [] }, status: :ok
         return
       end
 
@@ -28,12 +28,21 @@ module Api
           team2_score: match.team2_score
         }
       end
-      render json: response, status: :ok
+      render json: { message: '試合が組まれています', response: response }, status: :ok
     end
     #マイページに表示
     def show
-      match = Match.includes(:league, :team1, :team2).find(params[:id])
+      match = Match.joins(:league).includes(:team1, :team2)
+      .where("(team1_id = ? OR team2_id = ?) AND date >= ?", current_team.id, current_team.id, @requested_date)
+      .order(date: :asc) # 直近の試合を取得
+      .first
+
+      if match.nil?
+        render json: { message: '今週の試合は組まれていません。' }, status: :ok
+        return
+      end
       render json: {
+        message: '今週の試合が組まれています。確認してください。',
         league: "#{match.league.category}#{match.league.division}部",
         date:   match.date.strftime("%Y/%m/%d %H:%M"),
         place:  match.place,

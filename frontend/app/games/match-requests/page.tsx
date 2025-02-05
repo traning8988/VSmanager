@@ -43,7 +43,7 @@ export default function MatchRequests() {
       });
 
       alert('試合届を提出しました');
-      router.push("/games");
+      router.push("/teams");
     } catch (error) {
       console.error("送信失敗:", error);
       alert("送信失敗");
@@ -55,7 +55,7 @@ export default function MatchRequests() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-5 max-w-md mx-auto">
         <h1 className="text-2xl text-center">試合申し込み</h1>
-        <Card className="bg-zinc-900 text-white shadow-lg p-6 border-zinc-400">
+        <Card className= "*:p-6">
           <CardContent>
             {/* 試合申し込み */}
             <FormField
@@ -63,13 +63,13 @@ export default function MatchRequests() {
               name="actionType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">12月10日(仮)</FormLabel>
+                  <FormLabel className="text-zinc-900">12月10日(仮)</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} defaultValue="試合を希望する">
-                      <SelectTrigger className="bg-zinc-800 text-white border border-white">
+                      <SelectTrigger>
                         <SelectValue placeholder="試合を希望する" />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-800 text-white border border-white">
+                      <SelectContent>
                         <SelectItem value="試合を希望する">試合を希望する</SelectItem>
                         <SelectItem value="試合を希望しない">試合を希望しない</SelectItem>
                       </SelectContent>
@@ -85,7 +85,7 @@ export default function MatchRequests() {
               name="doubleType"
               render={({ field }) => (
                 <FormItem className="mt-4">
-                  <FormLabel className="text-gray-300">ダブルヘッダー</FormLabel>
+                  <FormLabel>ダブルヘッダー</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) => {
@@ -99,17 +99,17 @@ export default function MatchRequests() {
                         <RadioGroupItem 
                           value="true" 
                           id="radio-yes" 
-                          className="border-white ring-white data-[state=checked]:bg-white data-[state=checked]:ring data-[state=checked]:ring-blue-400"
+                          className="data-[state=checked]:bg-white data-[state=checked]:ring data-[state=checked]:ring-blue-400"
                         />
-                        <label htmlFor="radio-yes" className="text-white">希望する</label>
+                        <label htmlFor="radio-yes">希望する</label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem 
                           value="false" 
                           id="radio-no" 
-                          className="border-white ring-white data-[state=checked]:bg-white data-[state=checked]:ring data-[state=checked]:ring-blue-400"
+                          className="data-[state=checked]:bg-white data-[state=checked]:ring data-[state=checked]:ring-blue-400"
                         />
-                        <label htmlFor="radio-no" className="text-white">希望しない</label>
+                        <label htmlFor="radio-no">希望しない</label>
                       </div>
                     </RadioGroup>
                   </FormControl>
@@ -120,10 +120,10 @@ export default function MatchRequests() {
 
             {/* ボタンエリア */}
             <div className="flex justify-center space-x-6 mt-6">
-              <Button asChild className="px-6 py-2">
-                <Link href="/games">閉じる</Link>
+              <Button asChild className="px-6 py-2 hover:bg-zinc-800 hover:text-white">
+                <Link href="/teams">閉じる</Link>
               </Button>
-              <Button type="submit" className="px-6 py-2">送信</Button>
+              <Button type="submit" className="px-6 py-2 hover:bg-zinc-800 hover:text-white">送信</Button>
             </div>
           </CardContent>
         </Card>

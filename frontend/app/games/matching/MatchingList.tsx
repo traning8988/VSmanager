@@ -15,10 +15,10 @@ type MatchingIndex = {
 };
 
 export default function MatchingList({ matchingIndex }: { matchingIndex: MatchingIndex[] }) {
-
+  console.log("matchingIndexの型:", typeof matchingIndex, matchingIndex);
   return (
     <div>
-      <h1 className="m-2">今週の試合リスト</h1>
+      <h1 className="text-2xl text-center my-4">今週の試合リスト</h1>
       <Table>
         <TableHeader>
           <TableRow>
