@@ -105,7 +105,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
       const result = res.data; // サーバーから返ってきたレスポンスを確認
       console.log("Response Data:", result);
       alert("データ送信に成功しました");
-      router.push("/games")
+      router.push("/games/matching")
     } catch (error){
       console.error("Error submitting form data:", error);
       alert("データ送信に失敗しました。");
