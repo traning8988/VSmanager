@@ -3,11 +3,11 @@ module Api
     before_action :authenticate_team!
     #試合確定後の対戦表表示
     def index
-      @requested_date = Date.today
+      requested_date = Date.today
 
       # リクエストされた日付以降の試合を取得
       matches = Match.joins(:league).includes(:team1, :team2)
-                 .where("DATE(matches.date) >= ?", @requested_date)
+                 .where("DATE(matches.date) >= ?", requested_date)
                  .order("leagues.category ASC, leagues.division ASC, matches.date ASC")
 
       if matches.empty?
@@ -32,8 +32,9 @@ module Api
     end
     #マイページに表示
     def show
+      requested_date = Date.today
       match = Match.joins(:league).includes(:team1, :team2)
-      .where("(team1_id = ? OR team2_id = ?) AND date >= ?", current_team.id, current_team.id, @requested_date)
+      .where("(team1_id = ? OR team2_id = ?) AND date >= ?", current_team.id, current_team.id, requested_date)
       .order(date: :asc) # 直近の試合を取得
       .first
 
