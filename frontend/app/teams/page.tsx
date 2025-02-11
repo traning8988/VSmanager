@@ -46,8 +46,8 @@ export default function Teams() {
         const res = await api.get(`api/teams/${teamId}`);
         setTeam(res.data);
       } catch {
-          toast.error("チーム情報の取得に失敗しました。再ログインしてください。");
-          resetAuth();
+        console.log("チーム情報の取得に失敗しました。再ログインしてください。");
+        resetAuth();
       } finally {
         setIsLoading(false);
       }
@@ -69,7 +69,7 @@ export default function Teams() {
           setMessage("今週の試合はありません。");
         }
       } catch {
-        toast.error("試合情報の取得に失敗しました。再ログインしてください。");
+        console.log("試合情報の取得に失敗しました。再ログインしてください。");
         resetAuth();
       }
     };

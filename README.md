@@ -1,6 +1,6 @@
 # VSmanager
 
-<img src="frontend/public/スクリーンショット 2025-02-08 18.34.34.png">
+<img src="frontend/public/Westmire A56ヘッドホン (1).png">
 
 ### URL:[VSmanager](https://vsmanager-baseball.com)
 
@@ -86,12 +86,11 @@ VSmanager では、大会管理者と各チームの監督が、それぞれ異�
     <td align="center"><b>試合申し込みページ(チーム監督)</b></td>
   </tr>
   <tr>
-    <td><img width="100%" src="frontend/public/スクリーンショット 2025-02-08 19.01.36.png"></td>
+    <td><img width="100%" src="frontend/public/スクリーンショット 2025-02-12 1.48.45.png"></td>
     <td><img width="100%" src="frontend/public/スクリーンショット 2025-02-09 21.18.03.png"></td>
   </tr>
   <tr>
-    <!-- <td>ログイン後に表示されるページです。大会管理者からのお知らせ、チーム名、所属しているリーグ、対戦成績が確認できます。お知らせには対戦の組み合わせが確定したことなどが表示されます。</td> -->
-    <td>ログイン後に表示されるページです。チーム名、所属しているリーグ、対戦成績が確認できます。</td>
+    <td>ログイン後に表示されるページです。大会管理者からのお知らせ、チーム名、所属しているリーグ、対戦成績が確認できます。お知らせには対戦の組み合わせが確定したことなどが表示されます。</td>
     <td>試合の申し込みができるページです。申請、取り消し、ダブルヘッダー(1日に２試合組みたい場合の対応)の有無を選択して管理者側に送信することができます。</td>
   </tr>
 </table>
@@ -113,7 +112,7 @@ VSmanager では、大会管理者と各チームの監督が、それぞれ異�
 
 ## 画面遷移図
 
-<img src="frontend/public/スクリーンショット 2025-02-09 20.03.25.png">
+<img src="frontend/public/スクリーンショット 2025-02-12 1.54.48.png">
 
 ## ペルソナ
 
@@ -161,9 +160,9 @@ VSmanager では、大会管理者と各チームの監督が、それぞれ異�
 
 ![ER図](frontend/public/VSmanagerER.png)
 
-<!-- ## インフラ構成図
+## インフラ構成図
 
-あとで作ります -->
+![インフラ構成図](frontend/public/infra.png)
 
 ## 主な使用技術
 
