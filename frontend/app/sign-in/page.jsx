@@ -13,6 +13,7 @@ export default function SignIn() {
   const [, setTeamId] = useAtom(teamIdAtom);
   const [, setCommonName] = useAtom(teamCommonNameAtom);
   const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [disabled, setDisabled] = useState(false);
   const router = useRouter();
 
   useEffect(() =>{
@@ -20,8 +21,10 @@ export default function SignIn() {
     setIsLoggedIn(false);
     setTeamId(null);
     setCommonName('');
+    setDisabled(false);
   }, []);
   const handleLogin = async () => {
+    setDisabled(true);
     try {
       const res = await api.post('/sign_in', { email, password });
 
@@ -43,6 +46,8 @@ export default function SignIn() {
     } catch (error) {
       console.error('エラー:', error.response?.data?.error || error.message);
       toast.error(error.response?.data?.error || 'ログインに失敗しました');
+    } finally {
+      setDisabled(false);
     }
   } 
   return (
@@ -66,6 +71,7 @@ export default function SignIn() {
           />
           <Button
             onClick={handleLogin}
+            disabled={disabled}
             className="w-full hover:bg-zinc-800 hover:text-white"
           >
             ログイン
