@@ -63,7 +63,7 @@ export default function MatchRequests() {
               name="actionType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-900">2月15日(土)</FormLabel>
+                  <FormLabel className="text-zinc-900">2月22日(土)</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} defaultValue="試合を希望する">
                       <SelectTrigger>
@@ -71,7 +71,7 @@ export default function MatchRequests() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="試合を希望する">試合を希望する</SelectItem>
-                        <SelectItem value="試合を希望しない">試合を希望しない</SelectItem>
+                        <SelectItem value="試合を希望しない">試合を取り消す</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

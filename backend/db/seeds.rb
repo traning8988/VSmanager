@@ -66,10 +66,15 @@ end
 
 # 試合リクエストを作成するヘルパーメソッド
 def next_available_date(league_category)
-  Date.today.next_occurring(:saturday) if league_category.include?("土曜") || Date.today.next_occurring(:sunday)
+  if league_category.include?("土曜")
+    Date.today.next_occurring(:saturday)
+  elsif league_category.include?("日曜")
+    Date.today.next_occurring(:sunday)
+  end
 end
 
-# 全チームに試合リクエストを送る
+
+# 全チームが試合リクエストを送る
 @teams.each_with_index do |team, index|
   game_date = next_available_date(team.league.category)
   MatchRequest.create!(
