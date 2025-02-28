@@ -57,7 +57,7 @@ export default function Header() {
               <DropdownMenuTrigger>menu</DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem><Link href={"/admin/matching"} className="w-full">対戦管理</Link></DropdownMenuItem>
-                <DropdownMenuItem><Link href={"/games/matching"}> className="w-full"今週の試合情報</Link></DropdownMenuItem>
+                <DropdownMenuItem><Link href={"/games/matching"} className="w-full"> 今週の試合情報</Link></DropdownMenuItem>
                 <DropdownMenuItem><SignOut /></DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
