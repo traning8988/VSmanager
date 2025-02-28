@@ -75,7 +75,7 @@ export default function MatchRequests() {
               name="actionType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-zinc-900">2月22日(土)</FormLabel>
+                  <FormLabel className="text-zinc-900">3月1日(土)</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} defaultValue="試合を希望する">
                       <SelectTrigger>
