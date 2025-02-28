@@ -11,6 +11,9 @@ import { useAtom } from "jotai/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import useResetAuth from "@/hooks/useResetAuth";
+import { useEffect } from "react";
 
 type FormData = {
   doubleType: boolean;
@@ -27,6 +30,16 @@ export default function MatchRequests() {
     },
   });
 
+  const { resetAuth } = useResetAuth();
+  useEffect(() => {
+    const token = localStorage.getItem('jwt-token');
+    if (!token) {
+      toast.error("認証情報が不足しています。ログインしてください。");
+      resetAuth();
+      return;
+    }
+  },[]);
+
 
   const onSubmit = async (data: FormData) => {
     const endpoint = data.actionType === "試合を希望する"
@@ -34,7 +47,6 @@ export default function MatchRequests() {
       : `/api/match_requests/${teamId}`;
 
     const method = data.actionType === "試合を希望する" ? "POST" : "DELETE";
-
     try {
       await api({
         url: endpoint,
