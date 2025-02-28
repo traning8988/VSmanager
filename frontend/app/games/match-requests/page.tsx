@@ -29,9 +29,10 @@ export default function MatchRequests() {
       doubleType: false,
     },
   });
-  const token = localStorage.getItem('jwt-token');
+
   const { resetAuth } = useResetAuth();
   useEffect(() => {
+    const token = localStorage.getItem('jwt-token');
     if (!token) {
       toast.error("認証情報が不足しています。ログインしてください。");
       resetAuth();
