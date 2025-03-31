@@ -4,18 +4,7 @@ import MatchingList from "./MatchingList";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useResetAuth from "@/hooks/useResetAuth";
-
-type MatchingIndex = {
-  id: number
-  league: string
-  date:   string
-  time:   string
-  place:  string
-  team1:  string
-  team2:  string
-  team1_score: number | null
-  team2_score: number | null
-}
+import { MatchingIndex } from "@/types/match";
 
 export default function Matching () {
   const [matchingIndex, setMatchingIndex] = useState<MatchingIndex[]>([]);
@@ -45,6 +34,7 @@ export default function Matching () {
 
   return(
     <div>
+      <h1 className="text-2xl text-center my-4">今週の試合リスト</h1>
       <MatchingList matchingIndex={matchingIndex} />
     </div>
   )

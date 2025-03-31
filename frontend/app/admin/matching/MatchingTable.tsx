@@ -1,15 +1,7 @@
 'use client'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-
-type MatchRequestsIndex = {
-  id: number;
-  common_name: string;
-  category: string;
-  division: number;
-  requested_date: string;
-  double_header: boolean;
-}
+import { MatchRequestsIndex } from "@/types/match"
 
 export default function MatchingTable({ matchRequestsIndex }: { matchRequestsIndex: MatchRequestsIndex[] }) {
 

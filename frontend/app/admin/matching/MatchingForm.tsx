@@ -1,36 +1,19 @@
 "use client"
 
-import api from "@/app/utils/api";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-
-type MatchRecord = {
-  team1_common: string;
-  team2_common: string;
-  place: string;
-  times: string;
-}
-
-type MatchRequestsIndex = {
-  id: number | string;
-  common_name: string;
-  category: string;
-  division: number;
-  requested_date: string;
-  double_header: boolean;
-}
+import { MatchRecord } from "@/types/match";
+import { MatchRequestsIndex } from "@/types/match";
 
 type MatchingFormData = {
   matches: MatchRecord[];
 }
 
 
-export default function MatchingForm({ matchRequestsIndex }: { matchRequestsIndex: MatchRequestsIndex[] }) {
-  const router = useRouter()
+export default function MatchingForm({ matchRequestsIndex, onSubmit }: { matchRequestsIndex: MatchRequestsIndex[], onSubmit: (matches: MatchRecord[]) => void }) {
   const expendMatchRequestsIndex = matchRequestsIndex.flatMap((team) =>
     team.double_header ? [team, { ...team, id: `${team.id}-dh` }] : [team]
   )
@@ -78,39 +61,56 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
     form.setValue(`matches.${index}.${fieldName}`, value);
   };
 
-  const onSubmit = async (data: MatchingFormData) => {
-    console.log("Form Data:", data)
+  // const onSubmit = async (data: MatchingFormData) => {
+  //   console.log("Form Data:", data)
 
+  //   const formattedData = {
+  //     matches: data.matches.map((match) => {
+  //     const team1 = expendMatchRequestsIndex.find((team) => team.id.toString() === match.team1_common);
+  //     const team2 = expendMatchRequestsIndex.find((team) => team.id.toString() === match.team2_common);
+  //     return {
+  //       ...match,
+  //       team1_common: team1 ? team1.common_name : match.team1_common,
+  //       team2_common: team2 ? team2.common_name : match.team2_common
+  //     };
+  //   })};
+  
+  //   console.log("Formatted Form Data:", formattedData);
+  //   try{
+  //     const res = await api.post(`/api/matches`, formattedData)
+
+  //     if (res.status !== 201){
+  //       const errorData = res.data;
+  //       console.log("Server error:", errorData);
+  //       alert(errorData.error || "データ送信に失敗しました。");
+  //       return;
+  //     }
+  //     const result = res.data; // サーバーから返ってきたレスポンスを確認
+  //     console.log("Response Data:", result);
+  //     alert("データ送信に成功しました");
+  //     router.push("/games/matching")
+  //   } catch (error){
+  //     console.error("Error submitting form data:", error);
+  //     ("データ送信に失敗しました。");
+  //   }
+  // }
+
+  const handleSubmit = (data: MatchingFormData) => {
     const formattedData = {
       matches: data.matches.map((match) => {
       const team1 = expendMatchRequestsIndex.find((team) => team.id.toString() === match.team1_common);
       const team2 = expendMatchRequestsIndex.find((team) => team.id.toString() === match.team2_common);
       return {
-        ...match,
         team1_common: team1 ? team1.common_name : match.team1_common,
-        team2_common: team2 ? team2.common_name : match.team2_common
+        team2_common: team2 ? team2.common_name : match.team2_common,
+        place: match.place,
+        times: match.times,
+        league: `${team1?.category} ${team1?.division}部` || "",
+        date: team1?.requested_date || "",
       };
     })};
-  
-    console.log("Formatted Form Data:", formattedData);
-    try{
-      const res = await api.post(`/api/matches`, formattedData)
 
-      if (res.status !== 201){
-        const errorData = res.data;
-        console.log("Server error:", errorData);
-        alert(errorData.error || "データ送信に失敗しました。");
-        return;
-      }
-      const result = res.data; // サーバーから返ってきたレスポンスを確認
-      console.log("Response Data:", result);
-      alert("データ送信に成功しました");
-      router.push("/games/matching")
-    } catch (error){
-      console.error("Error submitting form data:", error);
-      alert("データ送信に失敗しました。");
-    }
-    
+    onSubmit(formattedData.matches)
   }
 
   const getTeamOptions = (currentValue: string | undefined) => {
@@ -138,7 +138,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 max-w-full px-2">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2 max-w-full px-2">
         {fields.map((field, index) => (
           <div key={field.id} className="flex items-center gap-2">
             <h2 className="text-center font-semibold text-sm">{index + 1}</h2>
@@ -320,7 +320,7 @@ export default function MatchingForm({ matchRequestsIndex }: { matchRequestsInde
           </div>
         ))} 
         <div className="space-x-4 pt-4">
-          <Button type="button" onClick={() => append({ team1_common: "", team2_common: "", place: "", times:"" })}>
+          <Button type="button" onClick={() => append({ team1_common: "", team2_common: "", place: "", times:"", league: "", date: "" })}>
             セット追加
           </Button>
 

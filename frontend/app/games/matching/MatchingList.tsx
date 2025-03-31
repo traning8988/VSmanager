@@ -1,24 +1,13 @@
 'use client'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { MatchingIndex } from "@/types/match"
 
-type MatchingIndex = {
-  id: number;
-  league: string;
-  date: string;
-  time: string;
-  place: string;
-  team1: string;
-  team2: string;
-  team1_score: number | null;
-  team2_score: number | null;
-};
 
 export default function MatchingList({ matchingIndex }: { matchingIndex: MatchingIndex[] }) {
   console.log("matchingIndexの型:", typeof matchingIndex, matchingIndex);
   return (
     <div>
-      <h1 className="text-2xl text-center my-4">今週の試合リスト</h1>
       <Table>
         <TableHeader>
           <TableRow>
@@ -32,9 +21,9 @@ export default function MatchingList({ matchingIndex }: { matchingIndex: Matchin
           </TableRow>
         </TableHeader>
         <TableBody>
-          {matchingIndex.map((match) => (
-            <TableRow key={match.id}>
-              <TableCell>{match.league}</TableCell>
+          {matchingIndex.map((match, index) => (
+            <TableRow key={index}>
+              <TableCell>{match.league || ""}</TableCell>
               <TableCell>{match.date}</TableCell>
               <TableCell>{match.team1}</TableCell>
               <TableCell>-</TableCell>

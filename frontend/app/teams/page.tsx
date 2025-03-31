@@ -74,7 +74,7 @@ export default function Teams() {
       }
     };
     fetchMatches();
-  }, [teamId]);
+  }, []);
 
   if (isLoading) {
     return <></>;
