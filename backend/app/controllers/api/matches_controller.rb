@@ -30,6 +30,7 @@ module Api
       end
       render json: { message: '試合が組まれています', response: response }, status: :ok
     end
+
     #マイページに表示
     def show
       requested_date = Date.today
@@ -77,7 +78,7 @@ module Api
 
         # 会場の検証
         if match[:place].blank?
-          errors << { error: "試合会場を指定してください", match: match }
+          errors << { error: '試合会場を指定してください', match: match }
           next
         end
 
@@ -121,7 +122,7 @@ module Api
     private
     def match_params
       params.require(:matches).map do |match|
-        match.permit(:team1_common, :team2_common, :place, :times)
+        match.permit(:team1_common, :team2_common, :place, :times, :league, :date)
       end
     end
 
