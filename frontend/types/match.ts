@@ -27,3 +27,12 @@ export type MatchingIndex = {
   team1_score: number | null;
   team2_score: number | null;
 };
+
+export type Match = {
+  message: string;
+  league: string;
+  date: string;
+  place: string;
+  team1: string;
+  team2: string;
+};
