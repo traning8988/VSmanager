@@ -15,6 +15,10 @@ api.interceptors.request.use((config) => {
   return config;
   },
   (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('jwt-token');
+      window.location.href = '/sign-in';
+    }
     return Promise.reject(error);
   }
 );

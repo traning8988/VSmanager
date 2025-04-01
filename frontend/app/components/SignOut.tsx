@@ -7,16 +7,11 @@ export default function SignOut() {
   const { resetAuth } = useResetAuth();
 
   const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem("jwt-token");
-      if (token) {
+    const token = localStorage.getItem("jwt-token");
+    if (token) {
       await api.delete("/logout");
-      }
-    } catch {
-      console.error("ログアウトに失敗しました:");
-    } finally {
-      resetAuth();
     }
+    resetAuth();
   };
 
   return (
