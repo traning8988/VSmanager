@@ -5,13 +5,25 @@ import useResetAuth from "@/hooks/useResetAuth";
 
 export default function SignOut() {
   const { resetAuth } = useResetAuth();
-
   const handleLogout = async () => {
     const token = localStorage.getItem("jwt-token");
-    if (token) {
-      await api.delete("/logout");
+    try {
+      if (token) {
+        await api.delete("/logout", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
+      }
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        console.warn("JWTが期限切れなのでサーバー側では無視してOK");
+      } else {
+        console.error("ログアウト中に想定外のエラー:", error);
+      }
+    } finally {
+      resetAuth(); // ローカル側は確実にログアウト
     }
-    resetAuth();
   };
 
   return (
