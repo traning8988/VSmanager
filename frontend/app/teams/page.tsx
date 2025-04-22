@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useAtom } from "jotai/react";
 import { teamIdAtom } from "../utils/store/atoms";
 import useResetAuth from "@/hooks/useResetAuth";
+import { Button } from "@/components/ui/button";
 
 type Team = {
   team_name: string;
@@ -30,6 +31,8 @@ export default function Teams() {
   const { resetAuth } = useResetAuth();
   const [message, setMessage] = useState("");
   const [, setMatch] = useState<string | null>(null);
+  const liffId = process.env.NEXT_PUBLIC_LIFF_CHANNEL_ID;
+  const liffUrl = `https://liff.line.me/${liffId}`;
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -85,7 +88,13 @@ export default function Teams() {
       {team &&
         <>
           <h1 className="text-2xl text-center">{team.team_name}</h1>
-          <h2 className="text-left w-4/5 max-w-lg mb-2">お知らせ</h2>
+          <div className="flex justify-between w-4/5 max-w-lg space-x-8">
+            <h2>お知らせ</h2>
+            <Button className="bg-green-500 text-black">
+              <a href="https://lin.ee/@787mzgbk">LINEと連携する</a>
+            </Button>
+          </div>
+
           <div className="bg-gray-100 flex items-start justify-between text-black w-4/5 max-w-lg min-h-[150px] border-2 p-4">
             <p>{message}</p>
           </div>
