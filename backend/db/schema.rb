@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_20_150841) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_15_073508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,6 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_150841) do
     t.bigint "league_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "line_user_id"
     t.index ["email"], name: "index_teams_on_email", unique: true
     t.index ["league_id"], name: "index_teams_on_league_id"
     t.index ["team_name"], name: "index_teams_on_team_name", unique: true
