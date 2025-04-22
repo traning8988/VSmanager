@@ -105,6 +105,7 @@ GEM
       reline (>= 0.4.2)
     jwt (2.10.1)
       base64
+    line-bot-api (1.29.1)
     logger (1.6.5)
     loofah (2.24.0)
       crass (~> 1.0.2)
@@ -208,6 +209,7 @@ DEPENDENCIES
   bootsnap
   debug
   jwt
+  line-bot-api
   pg
   puma (>= 5.0)
   rack-cors
