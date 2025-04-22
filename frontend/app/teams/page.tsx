@@ -31,8 +31,8 @@ export default function Teams() {
   const { resetAuth } = useResetAuth();
   const [message, setMessage] = useState("");
   const [, setMatch] = useState<string | null>(null);
-  const liffId = process.env.NEXT_PUBLIC_LIFF_CHANNEL_ID;
-  const liffUrl = `https://liff.line.me/${liffId}`;
+  // const liffId = process.env.NEXT_PUBLIC_LIFF_CHANNEL_ID;
+  // const liffUrl = `https://liff.line.me/${liffId}`;
 
   useEffect(() => {
     const fetchTeam = async () => {
