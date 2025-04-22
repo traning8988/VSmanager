@@ -6,6 +6,7 @@ import api from '../utils/api';
 import { toast } from 'react-toastify';
 import { isLoggedInAtom, teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
 import { useAtom } from "jotai/react";
+// import { useLiff } from "@/hooks/useLiff";
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -16,13 +17,15 @@ export default function SignIn() {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
 
-  useEffect(() =>{
+  useEffect(() => {
     localStorage.removeItem("jwt-token");
     setIsLoggedIn(false);
     setTeamId(null);
     setCommonName('');
     setDisabled(false);
   }, []);
+
+  // useLiff();
   const handleLogin = async () => {
     setDisabled(true);
     try {
@@ -49,7 +52,7 @@ export default function SignIn() {
     } finally {
       setDisabled(false);
     }
-  } 
+  }
   return (
     <div className="flex items-center justify-center pt-24">
       <div className="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-black">
