@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useAtom } from "jotai/react";
 import { teamIdAtom } from "../utils/store/atoms";
 import useResetAuth from "@/hooks/useResetAuth";
-import { Button } from "@/components/ui/button";
+import { LineConnectButton } from "./components/LineConnectButton";
 
 type Team = {
   team_name: string;
@@ -90,9 +90,7 @@ export default function Teams() {
           <h1 className="text-2xl text-center">{team.team_name}</h1>
           <div className="flex justify-between w-4/5 max-w-lg space-x-8">
             <h2>お知らせ</h2>
-            <Button className="bg-green-500 text-black">
-              <a href="https://lin.ee/@787mzgbk">LINEと連携する</a>
-            </Button>
+            <LineConnectButton />
           </div>
 
           <div className="bg-gray-100 flex items-start justify-between text-black w-4/5 max-w-lg min-h-[150px] border-2 p-4">

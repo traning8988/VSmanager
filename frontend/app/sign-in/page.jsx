@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { isLoggedInAtom, teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
+import { isLoggedInAtom, lineIdAtom, teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
 import { useAtom } from "jotai/react";
-// import { useLiff } from "@/hooks/useLiff";
+
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -15,6 +15,7 @@ export default function SignIn() {
   const [, setCommonName] = useAtom(teamCommonNameAtom);
   const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [disabled, setDisabled] = useState(false);
+  const [, setLineId] = useAtom(lineIdAtom);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,21 +24,22 @@ export default function SignIn() {
     setTeamId(null);
     setCommonName('');
     setDisabled(false);
+    setLineId(null);
   }, []);
 
-  // useLiff();
   const handleLogin = async () => {
     setDisabled(true);
     try {
       const res = await api.post('/sign_in', { email, password });
 
       const { token, team } = res.data;
-      console.log('team', team.id);
+      console.log('team', team);
       if (token && team && team.id) {
         localStorage.setItem('jwt-token', token);
         setTeamId(team.id);
-        setCommonName(team.commonName);
+        setCommonName(team.common_name);
         setIsLoggedIn(true);
+        setLineId(team.line_user_id);
         if (team.id === 1) {
           router.push('/admin/matching');
         } else {
