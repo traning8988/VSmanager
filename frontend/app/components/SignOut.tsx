@@ -15,8 +15,8 @@ export default function SignOut() {
           }
         });
       }
-    } catch (error: any) {
-      if (error.response?.status === 401) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         console.warn("JWTが期限切れなのでサーバー側では無視してOK");
       } else {
         console.error("ログアウト中に想定外のエラー:", error);
