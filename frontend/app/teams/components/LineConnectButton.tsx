@@ -2,7 +2,6 @@
 
 import { useAtom } from "jotai";
 import { lineIdAtom } from "@/app/utils/store/atoms";
-import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 
 export const LineConnectButton = () => {
