@@ -24,7 +24,7 @@ export default function SignIn() {
     setTeamId(null);
     setCommonName('');
     setDisabled(false);
-    setLineId(null);
+    setLineId('');
   }, []);
 
   const handleLogin = async () => {

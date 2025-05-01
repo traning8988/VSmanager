@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { lineIdAtom } from "../utils/store/atoms";
 import liff from "@line/liff";
 import { toast } from "react-toastify";
+import api from "../utils/api";
 
 export default function LineCallback() {
   const [, setLineId] = useAtom(lineIdAtom);
@@ -23,6 +24,14 @@ export default function LineCallback() {
 
         const profile = await liff.getProfile();
         const lineUserId = profile.userId;
+
+        const res = await api.post("/api/teams", { line_user_id: lineUserId})
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("LINE連携APIに失敗しました");
+        }
+
+
+
         setLineId(lineUserId);
         localStorage.setItem("lineUserId", lineUserId);
         toast.success("LINE連携が完了しました。");
