@@ -30,5 +30,15 @@ module Api
         }
       }, status: :ok
     end
+
+    def create
+      team = current_team
+      team.update(line_user_id: params[:line_user_id])
+      if team.save
+        render json: { message: 'LINE_IDを保存しました。' }, status: :created
+      else
+        render json: { error: team.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
   end
 end

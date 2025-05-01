@@ -6,6 +6,7 @@ export default function useResetAuth (): { resetAuth: () => void } {
   const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [, setTeamId] = useAtom(teamIdAtom);
   const [, setCommonName] = useAtom(teamCommonNameAtom);
+  const [, setLineId] = useAtom(teamCommonNameAtom);
   const router = useRouter();
 
   const resetAuth = () => {
@@ -13,6 +14,7 @@ export default function useResetAuth (): { resetAuth: () => void } {
     setIsLoggedIn(false);
     setTeamId(null);
     setCommonName('');
+    setLineId('');
     router.push('/sign-in');
     console.log("認証情報をリセットしました。");
   }

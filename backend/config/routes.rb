@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   namespace :api do
-    resources :teams, only: [:show]
+    resources :teams, only: [:show, :create]
     resources :leagues, only: [:show]
     resources :matches, only: [:index, :show, :create, :update, :destroy]
     resources :match_requests, only: [:index, :create, :destroy]
