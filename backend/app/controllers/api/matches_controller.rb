@@ -98,10 +98,12 @@ module Api
         if new_match.save
           created_matches << new_match
           message_text = "試合が組まれました! \n
-                          #{team1.common_name} vs #{team2.common_name} \n
-                          #日程: #{game_date.strftime('%m/%d %H:%M')} \n
-                          #会場: #{match[:place]} \n\n
-                          "
+          #{team1.common_name} vs #{team2.common_name} \n
+          試合開始: #{game_date.strftime('%m/%d %H:%M')} \n
+          会場: #{match[:place]} \n\n
+
+          アプリで確認する \n
+          https://vsmanager-baseball.com/"
 
           send_line_message(team1.line_user_id, message_text)
           send_line_message(team2.line_user_id, message_text)
