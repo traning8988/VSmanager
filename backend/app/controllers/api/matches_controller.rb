@@ -97,6 +97,14 @@ module Api
 
         if new_match.save
           created_matches << new_match
+          message_text = "試合が組まれました! \n
+                          #{team1.common_name} vs #{team2.common_name} \n
+                          #日程: #{game_date.strftime('%m/%d %H:%M')} \n
+                          #会場: #{match[:place]} \n\n
+                          "
+
+          send_line_message(team1.line_user_id, message_text)
+          send_line_message(team2.line_user_id, message_text)
         else
           errors << { error: new_match.errors.full_messages, match: match }
         end
@@ -134,6 +142,28 @@ module Api
       next_date = today + days_to_add
       game_times = times.split(":").map(&:to_i)
       Time.new(next_date.year, next_date.month, next_date.day, game_times[0], game_times[1])
+    end
+
+    def send_line_message(line_user_id, text)
+      return if line_user_id.blank?
+
+      message_data = {
+        type: 'text',
+        text: text
+      }
+
+      response = line_client.push_message(line_user_id, message_data)
+
+      unless Net::HTTPSuccess == response
+        Rails.logger.error("LINE API Error: #{response.body}")
+      end
+    end
+
+    def line_client
+      @line_client ||= Line::Bot::Client.new do |config|
+        config.channel_secret = ENV['LINE_BOT_CHANNEL_SECRET']
+        config.channel_token = ENV['LINE_BOT_CHANNEL_ACCESS_TOKEN']
+      end
     end
   end
 end
