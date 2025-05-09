@@ -58,7 +58,8 @@ leagues.each_with_index do |league, i|
       common_name: common_name,
       email: email,
       password_digest: BCrypt::Password.create("password"),
-      league: league
+      league: league,
+      line_user_id: nil
     )
     @teams << team
   end
