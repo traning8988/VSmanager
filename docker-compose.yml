@@ -43,6 +43,14 @@ services:
       - "3001:3000"
     networks:
       - app-network
+  ngrok:
+    image: ngrok/ngrok
+    restart: unless-stopped
+    command: http frontend:3000
+    environment:
+      - NGROK_AUTHTOKEN=2vnq4blTAPmIISb7qc6iNJwlTXB_NL4Yzfpehk9AHBoyr5zS
+    networks:
+      - app-network
 
 networks:
   app-network:
