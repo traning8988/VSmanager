@@ -11,7 +11,7 @@ export default defineConfig([
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     ignores: ['node_modules', '.next', 'public', 'dist'],
     plugins: { js },
-    extends: ['js/recommended'],
+    extends: ['next'],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
@@ -25,6 +25,7 @@ export default defineConfig([
     },
     rules: {
       'prettier/prettier': 'warn',
+      'react/react-in-jsx-scope': 'off',
     },
   },
   eslintConfigPrettier,
