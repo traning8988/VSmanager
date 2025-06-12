@@ -1,7 +1,14 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 type MatchResults = {
-  id: number
+  id: number;
   match_id: number;
   date: string;
   league: string;
@@ -9,10 +16,9 @@ type MatchResults = {
   opponent_team: string;
   reporting_team_score: number;
   opponent_team_score: number;
-}
+};
 
 export default function ResultsTable({ matchResults }: { matchResults: MatchResults[] }) {
-
   return (
     <div>
       <h1>試合結果届一覧</h1>
@@ -43,6 +49,5 @@ export default function ResultsTable({ matchResults }: { matchResults: MatchResu
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
-

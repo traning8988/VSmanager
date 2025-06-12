@@ -7,12 +7,13 @@ const api = axios.create({
   },
 });
 // リクエスト時にJWTを自動で設定
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('jwt-token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('jwt-token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
   (error) => {
     if (error.response?.status === 401) {

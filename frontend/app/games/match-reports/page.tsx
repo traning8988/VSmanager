@@ -1,11 +1,24 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from "@/components/ui/select";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectContent,
+} from '@/components/ui/select';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
 type ReportFormData = {
   reportingTeamName: string;
@@ -18,29 +31,26 @@ export default function MatchReports() {
   const router = useRouter();
   const form = useForm<ReportFormData>({
     defaultValues: {
-      reportingTeamName: "",
-      opponentTeamName: "",
+      reportingTeamName: '',
+      opponentTeamName: '',
       reportingTeamScore: 0,
-      opponentTeamScore: 0
+      opponentTeamScore: 0,
     },
   });
 
-
-
-
   const onSubmit = async (data: ReportFormData) => {
     const res = await fetch(`http://localhost:3000/api/match_reports`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ opponent_team_name: data.opponentTeamName }),
-    })
+    });
     if (res.ok) {
-      alert("送信成功")
-      router.push("/games")
+      alert('送信成功');
+      router.push('/games');
     } else {
-      alert("送信失敗")
+      alert('送信失敗');
     }
   };
 
@@ -67,8 +77,7 @@ export default function MatchReports() {
                   </Select>
                 </FormControl>
               </FormItem>
-            )
-
+            );
           }}
         />
         <FormField
@@ -91,16 +100,14 @@ export default function MatchReports() {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )
+            );
           }}
         />
         <Button asChild>
-          <Link href="/games">閉じる</Link >
+          <Link href="/games">閉じる</Link>
         </Button>
         <Button type="submit">送信</Button>
-
       </form>
-    </Form >
-
-  )
+    </Form>
+  );
 }

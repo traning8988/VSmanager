@@ -1,27 +1,27 @@
 'use client';
 
-import { Button } from "@/components/ui/button"
-import useResetAuth from "@/hooks/useResetAuth";
-import Link from "next/link"
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import api from "../utils/api";
-import { useAtom } from "jotai/react";
-import { teamIdAtom } from "../utils/store/atoms";
-import { Match } from "@/types/match";
+import { Button } from '@/components/ui/button';
+import useResetAuth from '@/hooks/useResetAuth';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import api from '../utils/api';
+import { useAtom } from 'jotai/react';
+import { teamIdAtom } from '../utils/store/atoms';
+import { Match } from '@/types/match';
 
 export default function Games() {
   const { resetAuth } = useResetAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [teamId] = useAtom(teamIdAtom);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [, setMatch] = useState<Match | null>(null);
 
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('jwt-token');
       if (!token) {
-        toast.error("認証情報が不足しています。ログインしてください。");
+        toast.error('認証情報が不足しています。ログインしてください。');
         resetAuth();
       } else {
         setIsLoading(false);
@@ -34,16 +34,16 @@ export default function Games() {
     const fetchMatches = async () => {
       try {
         const res = await api.get(`/api/matches/${teamId}`);
-        console.log("teamId", teamId);
-        console.log("今週の試合", res.data);
+        console.log('teamId', teamId);
+        console.log('今週の試合', res.data);
         if (res.data) {
           setMatch(res.data.date);
           setMessage(res.data.message);
         } else {
-          setMessage("今週の試合はありません。");
+          setMessage('今週の試合はありません。');
         }
       } catch {
-        toast.error("試合情報の取得に失敗しました。再ログインしてください。");
+        toast.error('試合情報の取得に失敗しました。再ログインしてください。');
         resetAuth();
       }
     };
@@ -66,8 +66,8 @@ export default function Games() {
         </Button>
         <Button asChild>
           <Link href="/games/match-reports">試合結果届け</Link>
-          </Button>
+        </Button>
       </div>
     </div>
-  )
+  );
 }

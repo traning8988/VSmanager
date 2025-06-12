@@ -1,12 +1,11 @@
-'use client'
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+'use client';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
-import { isLoggedInAtom, lineIdAtom, teamCommonNameAtom, teamIdAtom } from "../utils/store/atoms";
-import { useAtom } from "jotai/react";
-
+import { isLoggedInAtom, lineIdAtom, teamCommonNameAtom, teamIdAtom } from '../utils/store/atoms';
+import { useAtom } from 'jotai/react';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -19,7 +18,7 @@ export default function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    localStorage.removeItem("jwt-token");
+    localStorage.removeItem('jwt-token');
     setIsLoggedIn(false);
     setTeamId(null);
     setCommonName('');
@@ -54,7 +53,7 @@ export default function SignIn() {
     } finally {
       setDisabled(false);
     }
-  }
+  };
   return (
     <div className="flex items-center justify-center pt-24">
       <div className="w-full max-w-sm bg-white rounded-lg shadow-md p-6 text-black">
@@ -90,5 +89,5 @@ export default function SignIn() {
         </p> */}
       </div>
     </div>
-  )
+  );
 }

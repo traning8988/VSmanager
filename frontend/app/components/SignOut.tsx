@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import api from "../utils/api";
-import useResetAuth from "@/hooks/useResetAuth";
+import api from '../utils/api';
+import useResetAuth from '@/hooks/useResetAuth';
 
 export default function SignOut() {
   const { resetAuth } = useResetAuth();
   const handleLogout = async () => {
-    const token = localStorage.getItem("jwt-token");
+    const token = localStorage.getItem('jwt-token');
     try {
       if (token) {
-        await api.delete("/logout", {
+        await api.delete('/logout', {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         });
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.warn("JWTが期限切れなのでサーバー側では無視してOK");
+        console.warn('JWTが期限切れなのでサーバー側では無視してOK');
       } else {
-        console.error("ログアウト中に想定外のエラー:", error);
+        console.error('ログアウト中に想定外のエラー:', error);
       }
     } finally {
       resetAuth(); // ローカル側は確実にログアウト
@@ -34,6 +34,5 @@ export default function SignOut() {
     >
       ログアウト
     </button>
-  );  
-  
+  );
 }
