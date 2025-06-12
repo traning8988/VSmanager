@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import api from "../utils/api";
-import { toast } from "react-toastify";
-import { useAtom } from "jotai/react";
-import { teamIdAtom } from "../utils/store/atoms";
-import useResetAuth from "@/hooks/useResetAuth";
-import { LineConnectButton } from "./components/LineConnectButton";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import api from '../utils/api';
+import { toast } from 'react-toastify';
+import { useAtom } from 'jotai/react';
+import { teamIdAtom } from '../utils/store/atoms';
+import useResetAuth from '@/hooks/useResetAuth';
+import { LineConnectButton } from './components/LineConnectButton';
 
 type Team = {
   team_name: string;
@@ -29,7 +29,7 @@ export default function Teams() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { resetAuth } = useResetAuth();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [, setMatch] = useState<string | null>(null);
   // const liffId = process.env.NEXT_PUBLIC_LIFF_CHANNEL_ID;
   // const liffUrl = `https://liff.line.me/${liffId}`;
@@ -39,7 +39,7 @@ export default function Teams() {
       const token = localStorage.getItem('jwt-token');
 
       if (!token) {
-        toast.error("認証情報が不足しています。ログインしてください。");
+        toast.error('認証情報が不足しています。ログインしてください。');
         resetAuth();
         setIsLoading(false);
         return;
@@ -49,7 +49,7 @@ export default function Teams() {
         const res = await api.get(`api/teams/${teamId}`);
         setTeam(res.data);
       } catch {
-        console.log("チーム情報の取得に失敗しました。再ログインしてください。");
+        console.log('チーム情報の取得に失敗しました。再ログインしてください。');
         resetAuth();
       } finally {
         setIsLoading(false);
@@ -57,22 +57,22 @@ export default function Teams() {
     };
 
     fetchTeam();
-  }, [router]); 
+  }, [router]);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
         const res = await api.get(`/api/matches/${teamId}`);
-        console.log("teamId", teamId);
-        console.log("今週の試合", res.data);
+        console.log('teamId', teamId);
+        console.log('今週の試合', res.data);
         if (res.data) {
           setMatch(res.data.date);
           setMessage(res.data.message);
         } else {
-          setMessage("今週の試合はありません。");
+          setMessage('今週の試合はありません。');
         }
       } catch {
-        console.log("試合情報の取得に失敗しました。再ログインしてください。");
+        console.log('試合情報の取得に失敗しました。再ログインしてください。');
         resetAuth();
       }
     };
@@ -85,7 +85,7 @@ export default function Teams() {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-5 mt-4">
-      {team &&
+      {team && (
         <>
           <h1 className="text-2xl text-center">{team.team_name}</h1>
           <div className="flex justify-between w-4/5 max-w-lg space-x-8">
@@ -102,14 +102,19 @@ export default function Teams() {
           </div>
           <div className="flex justify-between w-4/5 max-w-lg space-x-8">
             <p>所属リーグ</p>
-            <p>{team.league.category}{team.league.division}部</p>
+            <p>
+              {team.league.category}
+              {team.league.division}部
+            </p>
           </div>
           <div className="flex justify-between w-4/5 max-w-lg space-x-8">
             <p>成績</p>
-            <p>{team.record.wins}勝{team.record.losses}負{team.record.draws}分</p>
-          </div>        
+            <p>
+              {team.record.wins}勝{team.record.losses}負{team.record.draws}分
+            </p>
+          </div>
         </>
-      }
+      )}
     </div>
   );
 }

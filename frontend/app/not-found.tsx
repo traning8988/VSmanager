@@ -1,4 +1,4 @@
 'use client';
 export default function notFound() {
-  return <div>not found</div>
+  return <div>not found</div>;
 }

@@ -1,10 +1,20 @@
-'use client'
+'use client';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { MatchRequestsIndex } from "@/types/match"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { MatchRequestsIndex } from '@/types/match';
 
-export default function MatchingTable({ matchRequestsIndex }: { matchRequestsIndex: MatchRequestsIndex[] }) {
-
+export default function MatchingTable({
+  matchRequestsIndex,
+}: {
+  matchRequestsIndex: MatchRequestsIndex[];
+}) {
   return (
     <div>
       <h1>試合申し込み一覧</h1>
@@ -21,15 +31,16 @@ export default function MatchingTable({ matchRequestsIndex }: { matchRequestsInd
           {matchRequestsIndex.map((request) => (
             <TableRow key={request.id}>
               <TableCell>{request.requested_date}</TableCell>
-              <TableCell>{request.category}{request.division}部</TableCell>
+              <TableCell>
+                {request.category}
+                {request.division}部
+              </TableCell>
               <TableCell>{request.common_name}</TableCell>
-              <TableCell>{request.double_header ? "◯" : ""}</TableCell>
+              <TableCell>{request.double_header ? '◯' : ''}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
-
-

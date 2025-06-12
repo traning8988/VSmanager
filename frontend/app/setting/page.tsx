@@ -1,7 +1,3 @@
-
-
 export default function setting() {
-  return (
-    <div>settingページです</div>
-  )
+  return <div>settingページです</div>;
 }

@@ -1,5 +1,3 @@
 export default function Results() {
-  return (
-    <div>resultsページです</div>
-  )
+  return <div>resultsページです</div>;
 }

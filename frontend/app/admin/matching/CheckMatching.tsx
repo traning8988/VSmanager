@@ -1,10 +1,10 @@
-import MatchingList from "@/app/games/matching/MatchingList";
-import { MatchRecord } from "@/types/match";
+import MatchingList from '@/app/games/matching/MatchingList';
+import { MatchRecord } from '@/types/match';
 
 export default function CheckMatching({ matchRecord }: { matchRecord: MatchRecord[] }) {
-  console.log("CheckMatching received:", matchRecord);
+  console.log('CheckMatching received:', matchRecord);
   const checkMatchingFormat = matchRecord.map((match) => ({
-    id: Math.random(),  // 🔹 仮のIDを振る
+    id: Math.random(), // 🔹 仮のIDを振る
     league: match.league,
     date: match.date, // 🔹 試合日も未定
     time: match.times,
@@ -13,8 +13,11 @@ export default function CheckMatching({ matchRecord }: { matchRecord: MatchRecor
     team2: match.team2_common,
     team1_score: null,
     team2_score: null,
-  }
-  ));
+  }));
 
-  return <><MatchingList matchingIndex={checkMatchingFormat} /></>;
+  return (
+    <>
+      <MatchingList matchingIndex={checkMatchingFormat} />
+    </>
+  );
 }

@@ -5,7 +5,7 @@ export type MatchRecord = {
   times: string;
   league: string;
   date: string;
-}
+};
 
 export type MatchRequestsIndex = {
   id: number | string;
@@ -14,7 +14,7 @@ export type MatchRequestsIndex = {
   division: number;
   requested_date: string;
   double_header: boolean;
-}
+};
 
 export type MatchingIndex = {
   id: number | null;
