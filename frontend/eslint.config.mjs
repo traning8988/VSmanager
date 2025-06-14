@@ -1,32 +1,66 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
-import eslintPluginPrettier from 'eslint-plugin-prettier';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import { defineConfig } from 'eslint/config';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+import tseslint from "typescript-eslint";
+import unicornPlugin from "eslint-plugin-unicorn";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
-export default defineConfig([
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = tseslint.config(
+  ...compat.extends("next/core-web-vitals"),
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    ignores: ['node_modules', '.next', 'public', 'dist'],
-    plugins: { js },
-    extends: ['next'],
+    extends: [
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+    ],
+    rules: {
+      "@typescript-eslint/array-type": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        { checksVoidReturn: { attributes: false } },
+      ],
+    },
   },
-  {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    languageOptions: { globals: globals.browser },
-  },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
   {
     plugins: {
-      prettier: eslintPluginPrettier,
+      unicorn: unicornPlugin,
     },
     rules: {
-      'prettier/prettier': 'warn',
-      'react/react-in-jsx-scope': 'off',
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
     },
   },
   eslintConfigPrettier,
-]);
+  {
+    languageOptions: {
+      parserOptions: {
+        project: true,
+      },
+    },
+  },
+  {
+    ignores: ["**/.next/**", "**/node_modules/**"],
+  },
+);
+
+export default eslintConfig;
