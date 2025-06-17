@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { MatchRequestsIndex } from '@/types/match';
+import { type MatchRequestsIndex } from '@/types/match';
 
 export default function MatchingTable({
   matchRequestsIndex,

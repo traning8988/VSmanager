@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { MatchRecord } from '@/types/match';
-import { MatchRequestsIndex } from '@/types/match';
+import { type MatchRecord } from '@/types/match';
+import { type MatchRequestsIndex } from '@/types/match';
 
 type MatchingFormData = {
   matches: MatchRecord[];

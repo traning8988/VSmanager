@@ -9,9 +9,9 @@ import { DialogContent, DialogHeader, DialogTitle, Dialog } from '@/components/u
 import { useEffect, useState } from 'react';
 import CheckMatching from './CheckMatching';
 import { Button } from '@/components/ui/button';
-import { MatchRecord } from '@/types/match';
+import { type MatchRecord } from '@/types/match';
 import SubmitMatches from './SubmitMatches';
-import { MatchRequestsIndex } from '@/types/match';
+import { type MatchRequestsIndex } from '@/types/match';
 
 export default function Matching() {
   const { resetAuth } = useResetAuth();

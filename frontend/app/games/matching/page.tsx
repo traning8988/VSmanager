@@ -1,10 +1,10 @@
 'use client';
 import api from '@/app/utils/api';
-import MatchingList from './MatchingList';
+import MatchingList from './matching-list';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useResetAuth from '@/hooks/useResetAuth';
-import { MatchingIndex } from '@/types/match';
+import { type MatchingIndex } from '@/types/match';
 
 export default function Matching() {
   const [matchingIndex, setMatchingIndex] = useState<MatchingIndex[]>([]);

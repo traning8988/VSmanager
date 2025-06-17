@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import api from '../utils/api';
 import { useAtom } from 'jotai/react';
 import { teamIdAtom } from '../utils/store/atoms';
-import { Match } from '@/types/match';
+import { type Match } from '@/types/match';
 
 export default function Games() {
   const { resetAuth } = useResetAuth();

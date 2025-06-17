@@ -23,7 +23,6 @@ const eslintConfig = tseslint.config(
       "@typescript-eslint/array-type": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/require-await": "off",
-      '@typescript-eslint/triple-slash-reference': 'error',
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
@@ -60,7 +59,7 @@ const eslintConfig = tseslint.config(
     },
   },
   {
-    ignores: ["**/.next/**", "**/node_modules/**"],
+    ignores: ["**/.next/**", "**/node_modules/**", "**/.prettierrc.*"],
   },
 );
 
