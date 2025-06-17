@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import SignOut from './SignOut';
+import SignOut from './sign-out';
 import { useAtom } from 'jotai/react';
 import { isLoggedInAtom, teamIdAtom } from '../utils/store/atoms';
 import {
