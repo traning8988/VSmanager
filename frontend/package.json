@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@hookform/resolvers": "^3.9.1",
     "@line/liff": "^2.25.1",
     "@radix-ui/react-dialog": "^1.1.6",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@types/es-abstract": "1.17.10",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.10.7",
     "@types/react": "^19.0.7",
@@ -45,9 +48,11 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-unicorn": "^59.0.1",
     "globals": "^16.2.0",
     "postcss": "^8",
     "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "typescript-eslint": "^8.34.0"

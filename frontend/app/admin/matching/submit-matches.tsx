@@ -2,7 +2,7 @@
 
 import api from '@/app/utils/api';
 import { Button } from '@/components/ui/button';
-import { MatchRecord } from '@/types/match';
+import { type MatchRecord } from '@/types/match';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { MatchingIndex } from '@/types/match';
+import { type MatchingIndex } from '@/types/match';
 
 export default function MatchingList({ matchingIndex }: { matchingIndex: MatchingIndex[] }) {
   console.log('matchingIndexの型:', typeof matchingIndex, matchingIndex);

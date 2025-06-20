@@ -36,3 +36,14 @@ export type Match = {
   team1: string;
   team2: string;
 };
+
+export type MatchResult = {
+  id: number;
+  team1: string;
+  team2: string;
+  team1_score: number | null;
+  team2_score: number | null;
+  date: string;
+  place: string;
+  league: string;
+};

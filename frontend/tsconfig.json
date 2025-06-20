@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/sign-in/page.jsx",
-    "app/components/SignOut.tsx"
+    "app/components/SignOut.tsx",
+    "eslint.config.mjs" 
   ],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Header from './components/Header';
+import Header from './components/header';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import 'react-toastify/dist/ReactToastify.css';

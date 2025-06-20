@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { MatchRecord } from '@/types/match';
-import { MatchRequestsIndex } from '@/types/match';
+import { type MatchRecord } from '@/types/match';
+import { type MatchRequestsIndex } from '@/types/match';
 
 type MatchingFormData = {
   matches: MatchRecord[];
@@ -42,7 +42,7 @@ export default function MatchingForm({
   });
 
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
-  console.log(`selectedTeamsの中身: ${selectedTeams}`);
+  console.log(`selectedTeamsの中身: ${selectedTeams.join(', ')}`);
 
   const handleSelectChange = (value: string, fieldName: keyof MatchRecord, index: number) => {
     const currentMatch = form.getValues(`matches.${index}`);
@@ -117,7 +117,7 @@ export default function MatchingForm({
           place: match.place,
           times: match.times,
           league: `${team1?.category} ${team1?.division}部` || '',
-          date: team1?.requested_date || '',
+          date: team1?.requested_date ?? '',
         };
       }),
     };
@@ -175,7 +175,7 @@ export default function MatchingForm({
                           <SelectValue placeholder="チームを選択">
                             {expendMatchRequestsIndex.find(
                               (team) => team.id.toString() === field.value
-                            )?.common_name || 'チームを選択してください'}
+                            )?.common_name ?? 'チームを選択してください'}
                           </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
@@ -237,7 +237,7 @@ export default function MatchingForm({
                           <SelectValue placeholder="チームを選択">
                             {expendMatchRequestsIndex.find(
                               (team) => team.id.toString() === field.value
-                            )?.common_name || 'チームを選択してください'}
+                            )?.common_name ?? 'チームを選択してください'}
                           </SelectValue>
                         </SelectTrigger>
                         <SelectContent>

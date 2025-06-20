@@ -1,17 +1,17 @@
 'use client';
 
 import api from '@/app/utils/api';
-import MatchingForm from './MatchingForm';
-import MatchingTable from './MatchingTable';
+import MatchingForm from './matching-form';
+import MatchingTable from './matching-table';
 import useResetAuth from '@/hooks/useResetAuth';
 import { toast } from 'react-toastify';
 import { DialogContent, DialogHeader, DialogTitle, Dialog } from '@/components/ui/dialog';
 import { useEffect, useState } from 'react';
-import CheckMatching from './CheckMatching';
+import CheckMatching from './check-matching';
 import { Button } from '@/components/ui/button';
-import { MatchRecord } from '@/types/match';
-import SubmitMatches from './SubmitMatches';
-import { MatchRequestsIndex } from '@/types/match';
+import { type MatchRecord } from '@/types/match';
+import SubmitMatches from './submit-matches';
+import { type MatchRequestsIndex } from '@/types/match';
 
 export default function Matching() {
   const { resetAuth } = useResetAuth();

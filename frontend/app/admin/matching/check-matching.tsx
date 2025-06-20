@@ -1,5 +1,5 @@
-import MatchingList from '@/app/games/matching/MatchingList';
-import { MatchRecord } from '@/types/match';
+import MatchingList from '@/app/games/matching/matching-list';
+import { type MatchRecord } from '@/types/match';
 
 export default function CheckMatching({ matchRecord }: { matchRecord: MatchRecord[] }) {
   console.log('CheckMatching received:', matchRecord);

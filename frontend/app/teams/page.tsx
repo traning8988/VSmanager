@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useAtom } from 'jotai/react';
 import { teamIdAtom } from '../utils/store/atoms';
 import useResetAuth from '@/hooks/useResetAuth';
-import { LineConnectButton } from './components/LineConnectButton';
+import { LineConnectButton } from './components/line-connect-button';
 
 type Team = {
   team_name: string;
@@ -31,8 +31,6 @@ export default function Teams() {
   const { resetAuth } = useResetAuth();
   const [message, setMessage] = useState('');
   const [, setMatch] = useState<string | null>(null);
-  // const liffId = process.env.NEXT_PUBLIC_LIFF_CHANNEL_ID;
-  // const liffUrl = `https://liff.line.me/${liffId}`;
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -47,7 +45,7 @@ export default function Teams() {
 
       try {
         const res = await api.get(`api/teams/${teamId}`);
-        setTeam(res.data);
+        setTeam(res.data as Team);
       } catch {
         console.log('チーム情報の取得に失敗しました。再ログインしてください。');
         resetAuth();
@@ -56,8 +54,8 @@ export default function Teams() {
       }
     };
 
-    fetchTeam();
-  }, [router]);
+    void fetchTeam();
+  }, [router, teamId, resetAuth]);
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -76,8 +74,8 @@ export default function Teams() {
         resetAuth();
       }
     };
-    fetchMatches();
-  }, []);
+    void fetchMatches();
+  }, [resetAuth, teamId]);
 
   if (isLoading) {
     return <></>;

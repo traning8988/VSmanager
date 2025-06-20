@@ -33,7 +33,7 @@ export default function SignIn() {
 
       const { token, team } = res.data;
       console.log('team', team);
-      if (token && team && team.id) {
+      if (token && team?.id) {
         localStorage.setItem('jwt-token', token);
         setTeamId(team.id);
         setCommonName(team.common_name);
